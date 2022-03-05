@@ -3,14 +3,15 @@
 #define N 8
 
 int ricercaBinaria(int a[],int item, int inizio, int fine){
-    if(inizio >= fine){
+    if(inizio >= fine){ //passo base
         return -1;
     }else{
         int centro = (inizio+fine)/2;
         if(a[centro]==item){
             return centro;
         }
-         else if (item > a[centro]){
+        //passi ricorsivi a seconda della posizione id item rispetto all'elemento centrale
+         else if (item > a[centro]){    
             return ricercaBinaria(a, item, centro + 1, fine);
         }
         else {
