@@ -1,3 +1,13 @@
+#include <unistd.h>
+
+void printArray(int *a, int len){
+    for (int i = 0; i < len; i++){
+        printf("| %d |", a[i]);
+    }
+    sleep(1);
+    printf("\n");
+}
+
 void swap(int* a, int* b){
     *a = *a + *b;
     *b = *a - *b;
@@ -11,6 +21,7 @@ void bubbleSort(int a[], int len){
             if (a[i] > a[j])
                 swap(&a[i], &a[j]);
         }
+        printArray(a, len);
     }
 }
 
@@ -30,6 +41,7 @@ void selectionSort(int a[], int len){
         p = posMinimo(a, i, len);
         if (p != i)
             swap(&a[i], &a[p]);
+        printArray(a, len);
     }
 }
 
@@ -42,5 +54,6 @@ void insertionSort(int a[], int len){
             j--;
         }
         a[j+1] = toSwap;  
+        printArray(a, len);
     }
 }
