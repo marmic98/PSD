@@ -112,7 +112,7 @@ char* incastonaGenerico(char** tab){
     }
 }
 
-//richiesta 5: swap stringhe
+//richiesta 5: funzione che effettua lo swap di stringhe
 void strSwap(char** tab){
     char* temp = tab[0];
     tab[0] = tab[1];
@@ -125,12 +125,13 @@ void strSwap(char** tab){
 void crea(char** tab){
     char* newStr = (char*)xmalloc(7);
     strncpy(newStr, tab[0], 3);
+   
     int i;
     for (i = 3; i < 6; i++)
         newStr[i] = tab[1][i-3]; 
+
     newStr[6] = '\0';
     tab[2] = newStr;
-    printf("newString %s\n",tab[2]);
 } 
 
 //richiesta 7: funzione che effettua il Bubble Sort di due stringhe
@@ -167,11 +168,12 @@ int main(){
     printf("l'incastonamento delle due stringhe e' %s\n", incastonaGenerico(tab));
 
     strSwap(tab);
-    printf("...SWAP...\ncognome  %s\nnome %s\n", tab[0], tab[1]);
+    printf("...SWAP...\nnome %s\ncognome %s\n", tab[0], tab[1]);
 
     strSwap(tab);
 
     crea(tab);
+    printf("newString %s\n",tab[2]);
 
     bubbleSort(tab[0]);
     bubbleSort(tab[1]);
