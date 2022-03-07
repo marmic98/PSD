@@ -93,9 +93,9 @@ char* incastona(char* lunga, char* corta){
 
     int meta0 = lenLunga/2;
     int meta1 = lenCorta/2;
-    int start = meta0 - meta1;
+    int start = meta0 - meta1 - 1;
     int i;
-    for (i = 0, start; start < meta0+meta1, i < lenCorta; start++, i++){
+    for (i = 0, start; start < meta0 + meta1, i < lenCorta; start++, i++){
         incastonamento[start] = corta[i];
     }
     return incastonamento;
@@ -113,7 +113,7 @@ char* incastonaGenerico(char** tab){
 }
 
 //richiesta 5: funzione che effettua lo swap di stringhe
-void strSwap(char** tab){
+void inverti(char** tab){
     char* temp = tab[0];
     tab[0] = tab[1];
     tab[1] = temp;
@@ -167,10 +167,10 @@ int main(){
 
     printf("l'incastonamento delle due stringhe e' %s\n", incastonaGenerico(tab));
 
-    strSwap(tab);
+    inverti(tab);
     printf("...SWAP...\nnome %s\ncognome %s\n", tab[0], tab[1]);
 
-    strSwap(tab);
+    inverti(tab);
 
     crea(tab);
     printf("newString %s\n",tab[2]);
