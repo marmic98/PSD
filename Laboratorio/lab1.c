@@ -4,8 +4,9 @@
 
 #define MAXLEN 50
 
-void printString(char* s, int len){
-    for (int i =0; i < len; i++){
+//Utility
+void printString(char* s){
+    for (int i =0; i < strlen(s); i++){
         printf("%c ", s[i]);
     }
     printf("\n");
@@ -19,6 +20,12 @@ void* xmalloc(size_t size){
         exit(-1);
     }
     return p;
+}
+
+void swap(char* a, char* b){
+    *a = *a + *b;
+    *b = *a - *b;
+    *a = *a - *b;
 }
 
 void readLine(char* s, int len){
@@ -37,6 +44,8 @@ char* readString(int len){
     free(s);
     return s1;
 }
+
+
 //richiesta 1: funzione che torva il carattere minimo secondo la ASCII table
 char minimo (char* str){
     int len = strlen(str);
@@ -58,6 +67,84 @@ char* minimo2(char** tab, int dim){
     return minimi;
 }
 
+//richiesta 3: funzione che effettua il merge di due stringhe
+char* merge(char** tab){
+    int len0 = strlen(tab[0]);
+    int len1 = strlen(tab[1]);
+
+    char* mergedStr = (char*)xmalloc(len0 + len1 + 1);
+
+    strcpy(mergedStr, tab[0]);
+    
+    int i = len0;
+    for(i; i < (len0 + len1); i++){
+        mergedStr[i] = tab[1][i-len0]; 
+    }
+    mergedStr[i] = '\0';
+    return mergedStr;
+}
+//richiesta 4: funzione che effettua l'incastonamento di una stringa in un' altra
+char* incastona(char* lunga, char* corta){
+    int lenLunga = strlen(lunga);
+    int lenCorta = strlen(corta);
+    char* incastonamento = (char*)xmalloc(lenLunga);
+
+    strcpy(incastonamento, lunga);
+
+    int meta0 = lenLunga/2;
+    int meta1 = lenCorta/2;
+    int start = meta0 - meta1;
+    int i;
+    for (i = 0, start; start < meta0+meta1, i < lenCorta; start++, i++){
+        incastonamento[start] = corta[i];
+    }
+    return incastonamento;
+}
+
+char* incastonaGenerico(char** tab){
+    int len0 = strlen(tab[0]);
+    int len1 = strlen(tab[1]);
+    
+    if (len0 > len1){ //metto tab1 in tab0
+        return incastona(tab[0], tab[1]);
+    }else{//metto tab0 in tab1
+        return incastona(tab[1], tab[0]);
+    }
+}
+
+//richiesta 5: swap stringhe
+void strSwap(char** tab){
+    char* temp = tab[0];
+    tab[0] = tab[1];
+    tab[1] = temp;
+}
+
+/*richiesta 6: funzione che aggiunge alla matrice di stringhe una terza stringa
+ *composta dai primi tre caratteri del nome e gli ultimi tre del cognome
+ */  
+void crea(char** tab){
+    char* newStr = (char*)xmalloc(7);
+    strncpy(newStr, tab[0], 3);
+    int i;
+    for (i = 3; i < 6; i++)
+        newStr[i] = tab[1][i-3]; 
+    newStr[6] = '\0';
+    tab[2] = newStr;
+    printf("newString %s\n",tab[2]);
+} 
+
+//richiesta 7: funzione che effettua il Bubble Sort di due stringhe
+void bubbleSort(char* s){
+    int i;
+    int len = strlen(s);
+    for (i = 0; i < len - 1; i++){
+        for(int j = i + 1; j < len; j++){
+            if (s[i] > s[j])
+                swap(&s[i], &s[j]);
+        }
+    }
+}
+
 int main(){
     printf("Fornire nome ");
     char* nome = readString(MAXLEN);
@@ -71,5 +158,22 @@ int main(){
     char *tab[2];
     tab[0] = nome;
     tab[1] = cognome;
-    printString(minimo2(tab, 2), 2);  
+
+    printf("i caratteri minimi delle due stringhe sono rispettivamente: ");
+    printString(minimo2(tab, 2));
+
+    printf("il merge tra le due stringhe e' %s\n", merge(tab));
+
+    printf("l'incastonamento delle due stringhe e' %s\n", incastonaGenerico(tab));
+
+    strSwap(tab);
+    printf("...SWAP...\ncognome  %s\nnome %s\n", tab[0], tab[1]);
+
+    strSwap(tab);
+
+    crea(tab);
+
+    bubbleSort(tab[0]);
+    bubbleSort(tab[1]);
+    printf("nome ordinato secondo ASCII table: %s\ncognome ordinato secondo ASCII table: %s", tab[0], tab[1]);
 }
