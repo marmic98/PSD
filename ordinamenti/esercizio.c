@@ -20,7 +20,6 @@ int main(void){
             break;
         if (scelta > 4)
             printf("Hai scelto di non ordinare l'array\n");
-        printArray(a, MAXLEN);
     }while(scelta != 4);
     printf("Exiting...\n");
     
