@@ -93,7 +93,7 @@ char* incastona(char* lunga, char* corta){
 
     int meta0 = lenLunga/2;
     int meta1 = lenCorta/2;
-    int start = meta0 - meta1 - 1;
+    int start = meta0 - meta1;
     int i;
     for (i = 0, start; start < meta0 + meta1, i < lenCorta; start++, i++){
         incastonamento[start] = corta[i];
