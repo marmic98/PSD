@@ -105,7 +105,7 @@ char* incastonaGenerico(char** tab){
     int len0 = strlen(tab[0]);
     int len1 = strlen(tab[1]);
     
-    if (len0 > len1){ //metto tab1 in tab0
+    if (len0 >= len1){ //metto tab1 in tab0
         return incastona(tab[0], tab[1]);
     }else{//metto tab0 in tab1
         return incastona(tab[1], tab[0]);
@@ -123,11 +123,18 @@ void inverti(char** tab){
  *composta dai primi tre caratteri del nome e gli ultimi tre del cognome
  */  
 void crea(char** tab){
-    char* newStr = (char*)xmalloc(7);
-    strncpy(newStr, tab[0], 3);
-    strncat(newStr, tab[1]+(strlen(tab[1])-3), 3);
-    newStr[6] = '\0';
-    tab[2] = newStr;
+    realloc(tab, 3 * sizeof(char*));
+    if (!tab){
+        printf("realloc failed\n");
+        exit(-1);
+    }
+    else{
+        char* newStr = (char*)xmalloc(7);
+        strncpy(newStr, tab[0], 3);
+        strncat(newStr, tab[1]+(strlen(tab[1])-3), 3);
+        newStr[6] = '\0';
+        tab[2] = newStr;
+    }
 } 
 
 //richiesta 7: funzione che effettua il Bubble Sort di due stringhe
@@ -149,29 +156,29 @@ int main(){
     printf("Fornire cognome ");
     char* cognome = readString(MAXLEN);
 
-    printf("Il carattere minimo del nome e' %c\n", minimo(nome));
-    printf("Il carattere minimo del cognome e' %c\n", minimo(cognome));
+    //printf("Il carattere minimo del nome e' %c\n", minimo(nome));
+    //printf("Il carattere minimo del cognome e' %c\n", minimo(cognome));
 
     char *tab[2];
     tab[0] = nome;
     tab[1] = cognome;
 
-    printf("i caratteri minimi delle due stringhe sono rispettivamente: ");
-    printString(minimo2(tab, 2));
+    //printf("i caratteri minimi delle due stringhe sono rispettivamente: ");
+    //printString(minimo2(tab, 2));
 
-    printf("il merge tra le due stringhe e' %s\n", merge(tab));
+    //printf("il merge tra le due stringhe e' %s\n", merge(tab));
 
     printf("l'incastonamento delle due stringhe e' %s\n", incastonaGenerico(tab));
 
-    inverti(tab);
-    printf("...SWAP...\nnome %s\ncognome %s\n", tab[0], tab[1]);
+    //inverti(tab);
+    //printf("...SWAP...\nnome %s\ncognome %s\n", tab[0], tab[1]);
 
-    inverti(tab);
+    //inverti(tab);
 
     crea(tab);
     printf("newString %s\n",tab[2]);
 
-    bubbleSort(tab[0]);
-    bubbleSort(tab[1]);
-    printf("nome ordinato secondo ASCII table: %s\ncognome ordinato secondo ASCII table: %s", tab[0], tab[1]);
+    //bubbleSort(tab[0]);
+    //bubbleSort(tab[1]);
+    //printf("nome ordinato secondo ASCII table: %s\ncognome ordinato secondo ASCII table: %s", tab[0], tab[1]);
 }
