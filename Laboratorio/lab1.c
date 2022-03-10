@@ -126,7 +126,6 @@ void crea(char** tab){
     char* newStr = (char*)xmalloc(7);
     strncpy(newStr, tab[0], 3);
     strncat(newStr, tab[1]+(strlen(tab[1])-3), 3);
-    
     newStr[6] = '\0';
     tab[2] = newStr;
 } 
