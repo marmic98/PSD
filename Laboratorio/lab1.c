@@ -22,6 +22,24 @@ void* xmalloc(size_t size){
     return p;
 }
 
+void* xrealloc(void* p, size_t size){
+    p = realloc(p, size);
+    if (p == NULL){
+        printf("Allocation of %lu bytes failed", size);
+        exit(-1);
+    }
+    return p;
+}
+
+void* xcalloc(size_t num, size_t size){
+    void* p = calloc(num, size);
+    if (p == NULL){
+        printf("Allocation of %lu bytes failed", size);
+        exit(-1);
+    }
+    return p;
+}
+
 void swap(char* a, char* b){
     *a = *a + *b;
     *b = *a - *b;
@@ -123,18 +141,14 @@ void inverti(char** tab){
  *composta dai primi tre caratteri del nome e gli ultimi tre del cognome
  */  
 void crea(char** tab){
-    realloc(tab, 3 * sizeof(char*));
-    if (!tab){
-        printf("realloc failed\n");
-        exit(-1);
-    }
-    else{
-        char* newStr = (char*)xmalloc(7);
-        strncpy(newStr, tab[0], 3);
-        strncat(newStr, tab[1]+(strlen(tab[1])-3), 3);
-        newStr[6] = '\0';
-        tab[2] = newStr;
-    }
+    tab[2] = xcalloc(7, 1);
+
+    strncat(tab[2], tab[0], 3);
+    
+    int len1 = strlen(tab[1]);
+    strcat(tab[2], tab[1] + (len1-3));
+
+    tab[2][6] = '\0';
 } 
 
 //richiesta 7: funzione che effettua il Bubble Sort di due stringhe
@@ -159,7 +173,7 @@ int main(){
     printf("Il carattere minimo del nome e' %c\n", minimo(nome));
     printf("Il carattere minimo del cognome e' %c\n", minimo(cognome));
 
-    char *tab[2];
+    char **tab= xmalloc(2 * sizeof(char*));
     tab[0] = nome;
     tab[1] = cognome;
 
@@ -172,13 +186,13 @@ int main(){
 
     inverti(tab);
     printf("...SWAP...\nnome %s\ncognome %s\n", tab[0], tab[1]);
-
     inverti(tab);
 
+    tab = xrealloc(tab, sizeof(char*) * 3);
     crea(tab);
-    printf("newString %s\n",tab[2]);
+    printf("tab[2] ==> %s\n",tab[2]);
 
     bubbleSort(tab[0]);
     bubbleSort(tab[1]);
-    printf("nome ordinato secondo ASCII table: %s\ncognome ordinato secondo ASCII table: %s", tab[0], tab[1]);
+    printf("nome ordinato secondo ASCII table: %s\ncognome ordinato secondo ASCII table: %s\n", tab[0], tab[1]);
 }
