@@ -1,39 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "utility.h"
+#include "vettore.h"
 
 #define LENDEF 5
-
-void outputArray(int *a, int len){
-    for (int i = 0; i < len; i++){
-        printf("| %d |", a[i]);
-    }
-    printf("\n");
-}
-
-void inputArray(int *a, int len){
-    for (int i = 0; i < len; i++){
-        printf("Fornisci elemento %d dell'array ", i+1);
-        scanf("%d", &a[i]);
-    }
-}
-
-void* xmalloc(size_t size){
-    void* p = malloc(size);
-    if(!p){
-        printf("alloc failed\n");
-        exit(-1);
-    }
-    return p;
-}
-
-void* xcalloc(size_t num, size_t size){
-    void* p = calloc(num, size);
-    if(!p){
-        printf("alloc failed\n");
-        exit(-1);
-    }
-    return p;
-}
 
 int shiftDx(int a[], int len, int pos){
     for(int i = len; i > pos; i--)
