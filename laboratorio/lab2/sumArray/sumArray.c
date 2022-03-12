@@ -1,46 +1,75 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include "vettore.h"
+#include "utility.h"
 
-#define lenA 5
-#define lenB 3
+#define LEN 20
 
-void* xcalloc(size_t num, size_t size){
-    void* p = calloc(num, size);
-    if(!p){
-        printf("alloc failed\n");
-        exit(-1);
-    }
-    return p;
-}
-int* sumArray(int min[], int max[], int lenMin, int lenMax){
-    int *c = xcalloc(lenMax, sizeof(int));
-    int i = 0;
-    for(i; i < lenMin; i++)
-        c[i] = min[i] + max[i];
-
-    for(i; i < lenMax; i++)
-        c[i] = max[i];
-
+int* sumArray(int* a, int* b, int* c, int len){
+    c = xcalloc(len, sizeof(int));
+    for(int i = 0; i < len; i++)
+        c[i] = a[i] + b[i];
     return c;
 }
 
-int* sumArrayChoice(int *a, int *b, int lena, int lenb){
-    if(lena > lenb) 
-        return sumArray(b, a, lenb, lena);
-    else 
-        return sumArray(a, b, lena, lenb);
+int runTestCase(char* tcId, int len){
+    char oracleFileName[LEN];
+    char inputFileName1[LEN];
+    char inputFileName2[LEN];
+    char outputFileName[LEN];
+
+    strcpy(oracleFileName, tcId);
+    strcat(oracleFileName, "_oracle.txt");
+    
+    strcpy(inputFileName1, tcId);
+    strcat(inputFileName1, "_input1.txt");
+    strcpy(inputFileName2, tcId);
+    strcat(inputFileName2, "_input2.txt");
+    
+    strcpy(outputFileName, tcId);
+    strcat(outputFileName, "_output.txt");
+
+    int *a = inputArrayFromFile(len, inputFileName1);
+    int *b = inputArrayFromFile(len, inputFileName2);
+
+    int* c = sumArray(a, b, c, len);
+    outputArray(c, len);
+
+    int *aOracle = inputArrayFromFile(len, oracleFileName);
+
+    outputArrayToFile(c, len, outputFileName);
+    return confrontoArray(c, aOracle, len);
+
 }
 
-void outputArray(int *a, int len){
-    for (int i = 0; i < len; i++){
-        printf("| %d |", a[i]);
+int main(int argc, char *argv[]) { 	
+    int len = 0;
+    int element;
+    int pos;
+    char tcId[LEN]; 
+
+    if(argc < 3){
+         printf("Nomi dei file mancanti \n");
+         exit(1);
+    }    
+    
+    FILE *testSuite = fopen(argv[1], "r");               
+    FILE* result = fopen(argv[2], "w");           
+    
+    if( testSuite==NULL || result == NULL ) {
+        printf("Errore in apertura dei file \n");    
+        exit(1);
     }
-    printf("\n");
-}
 
-int main(){
-    int a[lenA] = {1,2,3,4,5};
-    int b[lenB] = {1,2,3};
-    int *c = sumArrayChoice(a, b, lenA, lenB);
-    outputArray(c, lenA < lenB ? lenB : lenA);
+    int pass;
+    while(fscanf(testSuite, "%s%d", tcId, &len) == 2){
+        pass = runTestCase(tcId, len);
+    
+        fprintf(result,"%s ", tcId);
+        pass ? fprintf(result, "PASS \n") : fprintf(result, "FAIL \n");			
+    }	
+    
+    fclose(testSuite);  
+    fclose(result);         
 }

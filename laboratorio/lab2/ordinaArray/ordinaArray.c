@@ -13,8 +13,10 @@ int runTestCase (char* tcId, int len){
 
     strcpy(oracleFileName, tcId);
     strcat(oracleFileName, "_oracle.txt");
+    
     strcpy(inputFileName, tcId);
     strcat(inputFileName, "_input.txt");
+    
     strcpy(outputFileName, tcId);
     strcat(outputFileName, "_output.txt");
 
@@ -37,8 +39,6 @@ int runTestCase (char* tcId, int len){
 }
 
 int main(int argc, char *argv[]) { 	
-    
-    
     int len = 0;
     char tcId[LEN]; 
 
@@ -65,6 +65,4 @@ int main(int argc, char *argv[]) {
     
     fclose(testSuite);  
     fclose(result);         
-
-    
 }

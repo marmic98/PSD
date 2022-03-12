@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "utility.h"
 #include "vettore.h"
 
-#define LENDEF 5
+#define LEN 20
 
 int shiftDx(int a[], int len, int pos){
     for(int i = len; i > pos; i--)
@@ -17,27 +18,66 @@ void arrayCopy(int* toCopy, int* copied, int len){
     }
 }
 
-int* insert(int a[], int len, int element, int pos){
-    int *aNew = xcalloc((len + 1), sizeof(int));
-    arrayCopy(a, aNew, len);
-    shiftDx(aNew, len + 1, pos);
-    aNew[pos] = element;
-    free(a);
-    return aNew;
+int insert(int a[], int len, int element, int pos){
+    a = xrealloc(a, (len + 1) * sizeof(int));
+    shiftDx(a, len, pos);
+    a[pos] = element;
+    return len+1;
 }
 
-int main(){
-    int *a = xmalloc(LENDEF * sizeof(int));
-    int element, pos;
+int runTestCase(char* tcId, int len, int element, int pos){
+    char oracleFileName[LEN];
+    char inputFileName[LEN];
+    char outputFileName[LEN];
 
-    inputArray(a, LENDEF);
+    strcpy(oracleFileName, tcId);
+    strcat(oracleFileName, "_oracle.txt");
+    
+    strcpy(inputFileName, tcId);
+    strcat(inputFileName, "_input.txt");
+    
+    strcpy(outputFileName, tcId);
+    strcat(outputFileName, "_output.txt");
 
-    printf("Fornire valore da inserire nell'array ");
-    scanf("%d", &element);
-    printf("Fornire valore da inserire nell'array ");
-    scanf("%d", &pos);
-    a = insert(a, LENDEF, element, pos);
+    int *a = inputArrayFromFile(len, inputFileName);
 
-    outputArray(a, LENDEF);
+    len = insert(a, len, element, pos);
+    outputArray(a, len);
 
+    int *aOracle = inputArrayFromFile(len, oracleFileName);
+
+    outputArrayToFile(a, len, outputFileName);
+    return confrontoArray(a, aOracle, len);
+
+}
+
+int main(int argc, char *argv[]) { 	
+    int len = 0;
+    int element;
+    int pos;
+    char tcId[LEN]; 
+
+    if(argc < 3){
+         printf("Nomi dei file mancanti \n");
+         exit(1);
+    }    
+    
+    FILE *testSuite = fopen(argv[1], "r");               
+    FILE* result = fopen(argv[2], "w");           
+    
+    if( testSuite==NULL || result == NULL ) {
+        printf("Errore in apertura dei file \n");    
+        exit(1);
+    }
+
+    int pass;
+    while(fscanf(testSuite, "%s%d%d%d", tcId, &len, &element, &pos) == 4){
+        pass = runTestCase(tcId, len, element, pos);
+    
+        fprintf(result,"%s ", tcId);
+        pass ? fprintf(result, "PASS \n") : fprintf(result, "FAIL \n");			
+    }	
+    
+    fclose(testSuite);  
+    fclose(result);         
 }
