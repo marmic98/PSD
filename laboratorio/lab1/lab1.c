@@ -163,12 +163,18 @@ void bubbleSort(char* s){
     }
 }
 
-int main(){
-    printf("Fornire nome ");
-    char* nome = readString(MAXLEN);
+int main(int argc, char* argv[]){
+    //su windows in argv[0] c'è "path//a.exe"
+    //su Linux contiene solo il nome dell'eseguibile
+    
+    char * nome = argv[1];
+    char * cognome = argv[2];
 
-    printf("Fornire cognome ");
-    char* cognome = readString(MAXLEN);
+    // printf("Fornire nome ");
+    // char* nome = readString(MAXLEN);
+
+    // printf("Fornire cognome ");
+    // char* cognome = readString(MAXLEN);
 
     printf("Il carattere minimo del nome e' %c\n", minimo(nome));
     printf("Il carattere minimo del cognome e' %c\n", minimo(cognome));
@@ -188,11 +194,15 @@ int main(){
     printf("...SWAP...\nnome %s\ncognome %s\n", tab[0], tab[1]);
     inverti(tab);
 
-    tab = xrealloc(tab, sizeof(char*) * 3);
-    crea(tab);
-    printf("tab[2] ==> %s\n",tab[2]);
+    //tab = xrealloc(tab, sizeof(char*) * 3);
+    char** newTab = xcalloc(3, sizeof(char*));
+    newTab[0] = tab[0];
+    newTab[1] = tab[1];
+    crea(newTab);
+    printf("tab[2] ==> %s\n",newTab[2]);
 
     bubbleSort(tab[0]);
     bubbleSort(tab[1]);
     printf("nome ordinato secondo ASCII table: %s\ncognome ordinato secondo ASCII table: %s\n", tab[0], tab[1]);
+    printf("argv[0] = %s\n", argv[0]);
 }
