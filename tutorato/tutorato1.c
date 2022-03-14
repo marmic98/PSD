@@ -50,7 +50,7 @@ int occurences (char* fInName, char* str){
     return occ;
 }
 
-void sort (char * fInName){
+char** sort (char * fInName, char* fOutName){
     char* temp = xmalloc(LEN);
     int counter = 0;
 
@@ -79,7 +79,7 @@ void sort (char * fInName){
     
     bubbleSort(strCollection, counter);
 
-    FILE* sortedFile = fopen("sorted.txt", "w");
+    FILE* sortedFile = fopen(fOutName, "w");
     if(sortedFile){
         for(int i = 0; i < counter; i++)
             fprintf(sortedFile, "%s\n", strCollection[i]);
@@ -87,6 +87,52 @@ void sort (char * fInName){
     }
     else
         exit(-1);
+    return strCollection;
+}
+
+int confrontoStr(char* ss1[], char* ss2[], int num){
+    int i = 0;
+    while(i < num){
+        if (strcmp(ss1[i], ss2[i]) != 0)
+            return 0;
+        i++;
+    }
+    return 1;
+}
+
+int runTestCase(char* tcId, int num){
+    char inputFileName[LEN];
+    strcpy(inputFileName, tcId);
+    strcat(inputFileName, "_input.txt");
+
+    char oracleFileName[LEN];
+    strcpy(oracleFileName, tcId);
+    strcat(oracleFileName, "_oracle.txt");
+
+    char outputFileName[LEN];
+    strcpy(outputFileName, tcId);
+    strcat(outputFileName, "_output.txt");
+
+
+    char** strs = xmalloc(sizeof(char*) * num);
+    strs = sort(inputFileName, outputFileName);
+
+    FILE* oracle = fopen(oracleFileName, "r");
+    char temp[LEN];
+
+    char** oracleStrs = xmalloc(sizeof(char*) * num);
+    if (oracle){
+        for (int i = 0; i < num; i++){
+            fscanf(oracle, "%s", temp);
+            oracleStrs[i] = xmalloc(strlen(temp));
+            strcpy(oracleStrs[i], temp); 
+        }
+        fclose(oracle);
+    }
+    else
+        exit(-1);
+    
+    return confrontoStr(strs, oracleStrs, num);
 
 }
 
@@ -94,10 +140,25 @@ int main(int argc, char* argv[]){
     char mode = argv[1][0];
     char* fInName = argv[2];
     char* str = argv[3];
-    if (mode == 'o'){
-        printf("Le occorrenze della stringa %s sono %d\n", str, occurences(fInName, str));
+    char tcId[LEN];
+    // if (mode == 'o'){
+    //     printf("Le occorrenze della stringa %s sono %d\n", str, occurences(fInName, str));
+    // }
+    
+    FILE* testSuite = fopen(fInName, "r");
+    FILE* result = fopen("result.txt", "w");
+
+    if (!result || !testSuite){
+        printf("file di test mancanti\n");
+        exit(-1);
     }
-    else if(mode == 's'){
-        sort(fInName);
+    else{
+        int num = 0;
+        while(fscanf(testSuite, "%s%d", tcId, &num) == 2){
+            fprintf(result, "%s ", tcId);
+            runTestCase(tcId, num) ? fprintf(result, "PASS\n") : fprintf(result, "FAILED\n");
+        }
+        fclose(result);
+        fclose(testSuite);
     }
 }
