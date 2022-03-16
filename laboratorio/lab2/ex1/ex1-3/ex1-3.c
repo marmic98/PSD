@@ -6,37 +6,7 @@
 
 #define MAXLEN 50
 
-//richiesta 1: funzione che effettua il merge di due stringhe
-char* merge(char* s1, char* s2){
-    int len0 = strlen(s1);
-    int len1 = strlen(s2);
-
-    char* mergedStr = (char*)xmalloc(len0 + len1 + 1);
-
-    strcpy(mergedStr, s1);
-    
-    int i = len0;
-    for(i; i < (len0 + len1); i++){
-        mergedStr[i] = s2[i-len0]; 
-    }
-    mergedStr[i] = '\0';
-    return mergedStr;
-}
-
-//richiesta 2: funzione che effettua il Bubble Sort di due stringhe
-void bubbleSort(char* s){
-    int i;
-    int len = strlen(s);
-    for (i = 0; i < len - 1; i++){
-        for(int j = i + 1; j < len; j++){
-            if (s[i] > s[j])
-                swapChar(&s[i], &s[j]);
-        }
-    }
-}
-
 //richiesta 3: funzione che trova consonanti e vocali di una stringa
-
 int isVocal(char c){
     return (c == 'a' || c == 'A' || c == 'e' || c == 'E' || c == 'i' || c == 'I' || c == 'O' ||c == 'o' ||c == 'U' || c == 'u');
 }
@@ -90,8 +60,8 @@ int main(int argc, char* argv[]){
     char* nome = argv[1];
     char* cognome = argv[2];
 
-    printf("il merge di nome e cognome e' %s\n", merge(nome, cognome));
-
+    if (argc < 3) exit(-1);
+    
     char** voconsNome = xcalloc(2, sizeof(char*));
     voconsNome = vocaliConsonanti(nome);
     printf("vocali cognome: %s\n", voconsNome[0]);
@@ -101,16 +71,4 @@ int main(int argc, char* argv[]){
     voconsCognome = vocaliConsonanti(cognome);
     printf("vocali cognome: %s\n", voconsCognome[0]);
     printf("consonanti cognome: %s\n", voconsCognome[1]);
-
-    bubbleSort(nome);
-    printf("nome ordinato secondo ASCII: %s\n", nome);
-
-    bubbleSort(cognome);
-    printf("cognome ordinato secondo ASCII: %s\n", cognome);
-
-    
-    
-
-
-
 }

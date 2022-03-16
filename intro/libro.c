@@ -1,14 +1,16 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include "libro.h"
 
-typedef struct Libro {
+struct Libro {
     char autore[26];
     char titolo[53];
     char editore[26];
     int anno;
 }Libro;
 
-typedef Libro* libro;
+typedef struct Libro* libro;
 
 void* xmalloc(size_t size){
     void* p = malloc(size);
