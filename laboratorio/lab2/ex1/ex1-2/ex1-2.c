@@ -7,7 +7,7 @@
 #define MAXLEN 50
 
 //richiesta 2: funzione che effettua il Bubble Sort di due stringhe
-void bubbleSort(int* a, int len){
+void bubbleSort(int a[], int len){
     for (int i = 0; i < len - 1; i++){
         for(int j = i + 1; j < len; j++){
             if (a[i] > a[j])

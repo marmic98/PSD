@@ -9,6 +9,13 @@ typedef struct pnt {
     float y;
 } pnt;
 
+void swapPunto(punto *a, punto *b){
+    punto temp = xmalloc(sizeof(pnt)); 
+    temp = creaPunto(ascissa(*a), ordinata(*a));
+    *a = *b;
+    *b = temp;       
+}
+
 punto creaPunto(float x, float y){
     punto p = xmalloc(sizeof(pnt));
     p->x = x;

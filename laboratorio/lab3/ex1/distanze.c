@@ -67,9 +67,14 @@ int runTestCase (char* tcId, int nPunti, float d){
 
     //int nPunti = contaPunti(nPunti);
     FILE* output = fopen(fOutName, "w");
+    FILE* oracle = fopen(fOracleName, "r");
     if(nPunti < 2){
-        fprintf(output, "0");
+        fprintf(output, "0\n");
         fclose(output);
+        int coppieidoneeOracle;
+        fscanf(oracle,"%d", &coppieidoneeOracle);
+        fclose(oracle);
+        return coppieidoneeOracle == 0;
     }
 
 
@@ -82,10 +87,10 @@ int runTestCase (char* tcId, int nPunti, float d){
     fclose(output);
 
     int coppieIdoneeOracle;
-    FILE* oracle = fopen(fOracleName, "r");
+    oracle = fopen(fOracleName, "r");
     fscanf(oracle, "%d", &coppieIdoneeOracle);
     fclose(oracle);
-    printf("output: %d\noracle: %d\n", coppieIdonee, coppieIdoneeOracle);
+    //printf("output: %d\noracle: %d\n", coppieIdonee, coppieIdoneeOracle);
     return (coppieIdonee == coppieIdoneeOracle);
 }
 

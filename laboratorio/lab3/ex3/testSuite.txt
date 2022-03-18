@@ -1,0 +1,4 @@
+TC1 3 a a
+TC2 3 a d
+TC3 3 o a
+TC4 3 o d
