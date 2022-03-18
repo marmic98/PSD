@@ -85,10 +85,13 @@ int main(int argc, char* argv[]){
     //su windows in argv[0] c'è "path//a.exe"
     //su Linux contiene solo il nome dell'eseguibile
     
+    if (argc < 3){ 
+        printf("paramtri input insufficienti\n");
+        exit (-1);
+    }
+
     char* nome = argv[1];
     char* cognome = argv[2];
-
-    if (argc < 3) exit (-1);
 
     printf("il merge di nome e cognome e' %s\n", merge(nome, cognome));
 }
