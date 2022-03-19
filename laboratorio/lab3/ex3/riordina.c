@@ -7,6 +7,24 @@
 
 #define LEN 30
 
+int contaPunti(char* fInName){
+    FILE* fin = fopen(fInName, "r");
+    int nPunti = 0;
+
+    if (!fin){
+        printf("Errore apertura file\n");
+        exit(-1);
+    }
+    else{
+        float x=0, y=0;
+        while(fscanf(fin, "%f%f", &x, &y)==2){
+            nPunti++;
+        }
+        fclose(fin);
+    }
+    return nPunti;
+}
+
 void caricaPunti(char* fInName, punto p[], int nPunti){
     FILE* fin = fopen(fInName, "r");
 
