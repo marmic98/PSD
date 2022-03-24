@@ -36,7 +36,7 @@ int main(){
     list sortedx = sortx(sorted);
     printf("\nsort by x\n");
     printLista(sortedx);
-    list l3 = removeItemOpt(sorted, p);
+    list l3 = removeItemOpt(sortedx, p);
     printf("\nrimozione\n");
     printLista(l3); 
 
