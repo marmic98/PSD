@@ -235,45 +235,51 @@ list removeItemOpt(list l, item e){
 }
 
 list sorty (list l) {
-  list p;
-  int flag; 
-  item temp;
 
-  flag = 1;
-  while (flag == 1) {
-    p = l;
-    flag = 0;
-    while (p->next != NULL) {
-      if (!lessy(p->value, p->next->value)){
-        temp = (p->value);
-        p->value = p->next->value;
-        p->next->value = temp;
-        flag = 1;
-      }
-      p = p->next;
-    }
-  }
-  return(l);
+    list i;
+    list j; 
+    item temp;
+
+        i = l;
+        j;
+        while (i->next != NULL) {
+            j = i->next;
+            while(j != NULL){
+                if (!lessy(i->value, j->value)){
+                    temp = (i->value);
+                    i->value = j->value;
+                    j->value = temp;
+                    
+                }
+                j = j->next;
+            }
+        j = i->next->next;
+        i = i->next;
+        }
+    return(l);
 }
 
-list sortx (list l) {
-  list p;
-  int flag; 
-  item temp;
+list sortx(list l) {
 
-  flag = 1;
-  while (flag == 1) {
-    p = l;
-    flag = 0;
-    while (p->next != NULL) {
-      if (!lessx(p->value, p->next->value)){
-        temp = (p->value);
-        p->value = p->next->value;
-        p->next->value = temp;
-        flag = 1;
-      }
-      p = p->next;
-    }
-  }
-  return(l);
+    list i;
+    list j; 
+    item temp;
+
+        i = l;
+        j;
+        while (i->next != NULL) {
+            j = i->next;
+            while(j != NULL){
+                if (!lessx(i->value, j->value)){
+                    temp = (i->value);
+                    i->value = j->value;
+                    j->value = temp;
+                    
+                }
+                j = j->next;
+            }
+        j = i->next->next;
+        i = i->next;
+        }
+    return(l);
 }

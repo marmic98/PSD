@@ -30,15 +30,21 @@ int main(){
     printf("p aggiunto presente: %d\n", searchItem(p, l2));
     printf("p aggiunto pos: %d\n", posItem(p, l2));
     
-    list sorted = sorty(l2);
-    printf("\nsort by y\n");
-    printLista(sorted);
-    list sortedx = sortx(sorted);
-    printf("\nsort by x\n");
-    printLista(sortedx);
-    list l3 = removeItemOpt(sortedx, p);
+    list l3 = removeItemOpt(l2, p);
     printf("\nrimozione\n");
     printLista(l3); 
-
+    
+    list sorted = sorty(l3);
+    printf("\nsort by y\n");
+    printLista(sorted);
+    list sortedx = sortx(l3);
+    printf("\nsort by x\n");
+    printLista(sortedx);
+    
+    // free(l);
+    // free(l2);
+    // free(l3);
+    // free(sorted);
+    // free(sortedx);
 
 }
