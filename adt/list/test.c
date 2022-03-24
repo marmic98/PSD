@@ -13,13 +13,22 @@ int main(){
     printLista(l);
     
     printf("\nInserimento\n");
-    item p = creaPunto(3, 3);
-    //printf("elemento in pos: %d\n", posItem(p, l));
-    list l2 = insertListOpt(l, p, 2);
+    float x, y;
+    printf("Fornire ascissa: ");
+    scanf("%f", &x);
+    printf("Fornire ordinata: ");
+    scanf("%f", &y);
+    item p = creaPunto(x,y);
+
+    int pos = 2;
+    printf("In quale posizione vuoi inserire l'elemento?\n");
+    scanf("%d", &pos);
+    
+    list l2 = insertListOpt(l, p, pos);
     printLista(l2);
     printf("3 3 presente: %d\n", searchItem(p, l2));
     printf("3 3 pos: %d\n", posItem(p, l2));
-    list l3 = removeListOpt(l2, 2);
+    list l3 = removeItemOpt(l2, p);
     printf("\nrimozione\n");
     printLista(l3);
 }

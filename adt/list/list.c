@@ -148,7 +148,7 @@ list insertList(list l, item e, int pos){
     return lnew;
 }
 
-list removeItem(list l, int pos){
+list removeList(list l, int pos){
     int i = 0;
     list ltemp = newList();
     list lnew = newList();
@@ -208,4 +208,26 @@ list removeListOpt(list l, int pos){
     l1->next = l1->next->next;   
     free(succ);
     return l;  
+}
+
+list removeItemOpt(list l, item e){
+    int i = 0;
+    if (equal(l->value, e))
+        return tailList(l);
+
+    list lApp = tailList(l); //secondo elemento della lista
+    list temp = tailList(lApp);
+    while(!emptyList(temp)){
+        if (equal(temp->value, e)){
+            lApp->next = lApp->next->next;
+            free(temp);
+            return l;
+        }
+        else{
+            lApp = lApp->next;
+            temp = lApp->next->next;
+        }  
+    }
+    if (lApp == NULL)
+    return l;
 }
