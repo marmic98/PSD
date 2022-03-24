@@ -1,5 +1,5 @@
 test.exe: list.o test.o punto.o utility.o
-	gcc list.o test.o punto.o utility.o -o test.exe
+	gcc list.o test.o punto.o utility.o -o test.exe -lm
 
 list.o: list.c
 	gcc -c list.c
@@ -14,4 +14,4 @@ utility.o: utility.c
 	gcc -c utility.c
 
 clean: 
-	del *.o
+	rm *.o *.exe

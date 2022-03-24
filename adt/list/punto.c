@@ -39,3 +39,10 @@ int equal(punto p1, punto p2){
     return ((ascissa(p1) == ascissa(p2)) && (ordinata(p1) == ordinata(p2)));
 }
 
+int lessx(punto p1, punto p2){
+    return (ascissa(p1) < ascissa(p2));
+}
+
+int lessy(punto p1, punto p2){
+    return (ordinata(p1) < ordinata(p2));
+}

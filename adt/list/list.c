@@ -77,8 +77,8 @@ list createList(int n){
 
 void printLista(list l){
     int len = sizeList(l);
-    for(int i = 0; i < len;i++){
-        printf("Item n. %d\n[%g][%g]\n\n", i+1, ascissa(l->value), ordinata(l->value));
+    for(int i = 0; i < len;i++){ 
+        printf("Item n. %d [%g][%g]\n", i+1, ascissa(l->value), ordinata(l->value));
         l = tailList(l);
     }
 }
@@ -180,7 +180,8 @@ list insertListOpt(list l, item e ,int pos){
         l1 = l1->next;
         i++;
     }
-    if (l1 == NULL) return l;
+    if (l1 == NULL)
+        return l;
 
     list insNode = newList();
     insNode = consList(e, l1->next);
@@ -214,9 +215,10 @@ list removeItemOpt(list l, item e){
     int i = 0;
     if (equal(l->value, e))
         return tailList(l);
-
-    list lApp = tailList(l); //secondo elemento della lista
-    list temp = tailList(lApp);
+    list lApp = newList(); //secondo elemento della lista
+    list temp = newList();
+    lApp = tailList(l); //secondo elemento della lista
+    temp = tailList(lApp);
     while(!emptyList(temp)){
         if (equal(temp->value, e)){
             lApp->next = lApp->next->next;
@@ -228,6 +230,50 @@ list removeItemOpt(list l, item e){
             temp = lApp->next->next;
         }  
     }
-    if (lApp == NULL)
+    if (temp == NULL)
     return l;
+}
+
+list sorty (list l) {
+  list p;
+  int flag; 
+  item temp;
+
+  flag = 1;
+  while (flag == 1) {
+    p = l;
+    flag = 0;
+    while (p->next != NULL) {
+      if (!lessy(p->value, p->next->value)){
+        temp = (p->value);
+        p->value = p->next->value;
+        p->next->value = temp;
+        flag = 1;
+      }
+      p = p->next;
+    }
+  }
+  return(l);
+}
+
+list sortx (list l) {
+  list p;
+  int flag; 
+  item temp;
+
+  flag = 1;
+  while (flag == 1) {
+    p = l;
+    flag = 0;
+    while (p->next != NULL) {
+      if (!lessx(p->value, p->next->value)){
+        temp = (p->value);
+        p->value = p->next->value;
+        p->next->value = temp;
+        flag = 1;
+      }
+      p = p->next;
+    }
+  }
+  return(l);
 }

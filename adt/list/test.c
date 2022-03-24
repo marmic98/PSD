@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "punto.h"
 #include "list.h"
 
 int main(){
@@ -7,7 +8,7 @@ int main(){
     printf("Fornire numero di elementi da inserire nella lista\n");
     scanf("%d", &n);
     list l = createList(n);
-    system("cls");
+    system("clear");
     l = reverseList(l);
     printf("Reverse list\n");
     printLista(l);
@@ -20,15 +21,24 @@ int main(){
     scanf("%f", &y);
     item p = creaPunto(x,y);
 
-    int pos = 2;
+    int pos = 0;
     printf("In quale posizione vuoi inserire l'elemento?\n");
     scanf("%d", &pos);
     
     list l2 = insertListOpt(l, p, pos);
     printLista(l2);
-    printf("3 3 presente: %d\n", searchItem(p, l2));
-    printf("3 3 pos: %d\n", posItem(p, l2));
-    list l3 = removeItemOpt(l2, p);
+    printf("p aggiunto presente: %d\n", searchItem(p, l2));
+    printf("p aggiunto pos: %d\n", posItem(p, l2));
+    
+    list sorted = sorty(l2);
+    printf("\nsort by y\n");
+    printLista(sorted);
+    list sortedx = sortx(sorted);
+    printf("\nsort by x\n");
+    printLista(sortedx);
+    list l3 = removeItemOpt(sorted, p);
     printf("\nrimozione\n");
-    printLista(l3);
+    printLista(l3); 
+
+
 }

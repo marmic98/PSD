@@ -18,3 +18,5 @@ list insertList(list l, item e, int pos);
 list insertListOpt(list l, item e, int pos);
 list removeListOpt(list l, int pos);
 list removeItemOpt(list l, item e);
+list sorty(list l);
+list sortx(list l);
