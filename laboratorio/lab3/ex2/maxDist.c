@@ -26,6 +26,12 @@ void caricaPunti(char* fInName, punto p[], int nPunti){
 
 float* distMaxDots(punto p[], int nPunti){
     float *max = xmalloc(3 * sizeof(float));
+    if (nPunti < 2){
+        max[0] = -1;
+        max[1] = -1;
+        max[2] = -1;
+        return max; 
+    }
     max[0] = distanza(p[0], p[1]);
     for(int i = 0; i < nPunti - 1; i++){
         for(int j = i+1; j < nPunti; j++){
