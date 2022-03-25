@@ -9,3 +9,6 @@ utility.o: utility.c
 
 riordina.o: riordina.c
 	gcc -c riordina.c
+
+clean:
+	rm *.o
