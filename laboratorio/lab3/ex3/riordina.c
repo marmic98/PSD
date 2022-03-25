@@ -70,34 +70,25 @@ void bubbleSortCrescentey(punto* p, int nPunti){
     }
 }
 
-void bubbleSortDecrescentex(punto* p, int nPunti){
-    for (int i = 0; i < nPunti - 1; i++){
-        for(int j = i + 1; j < nPunti; j++){
-            if (ascissa(p[i]) < ascissa(p[j]))
-                swapPunto(&p[i], &p[j]);
-        }
-    }
-}
-
-void bubbleSortDecrescentey(punto* p, int nPunti){
-    for (int i = 0; i < nPunti - 1; i++){
-        for(int j = i + 1; j < nPunti; j++){
-            if (ordinata(p[i]) < ordinata(p[j]))
-                swapPunto(&p[i], &p[j]);
-        }
+void reverse(punto a[], int n){
+    int mezzeria = n/2;
+    for(int i = 0; i < mezzeria; i++){
+        swapPunto(&a[i], &a[n - i - 1]);
     }
 }
 //criterio: a crescente d decrescente
 //coordinata: o ordinata a ascissa
 void riordina (punto* p, int nPunti, char coordinata, char criterio){
-    if (criterio == 'a' && coordinata=='a')
+    if (coordinata=='a'){
         bubbleSortCrescentex(p, nPunti);
-    if (criterio == 'a' && coordinata=='o')
+        if (criterio == 'd')
+            reverse(p, nPunti);
+    }
+    else{
         bubbleSortCrescentey(p, nPunti);
-    if (criterio == 'd' && coordinata=='a')
-        bubbleSortDecrescentex(p, nPunti);
-    if (criterio == 'd' && coordinata=='o')
-        bubbleSortDecrescentey(p, nPunti);
+        if (criterio == 'd')
+            reverse(p, nPunti);
+    }
 }
 
 int runTestCase (char* tcId, int nPunti, char coordinata, char criterio){
@@ -121,13 +112,13 @@ int runTestCase (char* tcId, int nPunti, char coordinata, char criterio){
     riordina(p, nPunti, coordinata, criterio);
     
     for(int i = 0; i < nPunti; i++) {
-        printf("punto n%d\n", i);
+        printf("punto p%d\n", i);
         printPunto(p[i]);
     }
 
     output = fopen(fOutName, "w");
     for(int i = 0; i < nPunti; i++){
-        fprintf(output, "%f %f\n", ascissa(p[i]), ordinata(p[i]));
+        fprintf(output, "%g %g\n", ascissa(p[i]), ordinata(p[i]));
     }
     fclose(output);
 

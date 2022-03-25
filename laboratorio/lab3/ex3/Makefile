@@ -1,5 +1,5 @@
 riordina.exe: riordina.o punto.o utility.o
-	gcc riordina.o punto.o utility.o -o riordina.exe
+	gcc riordina.o punto.o utility.o -o riordina.exe -lm
 
 punto.o: punto.c
 	gcc -c punto.c
