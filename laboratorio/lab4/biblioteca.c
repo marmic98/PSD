@@ -82,28 +82,20 @@ libro* inputBibliotecaFromFile(int n, char* fInName){
     
     for(int i = 0; i < n; i++){
 
-        fgets(buffer, BUFFSIZE, fin);
-        
-        if (buffer[strlen(buffer)-1] == ' ' || buffer[strlen(buffer)-1] == '\n')
-            buffer[strlen(buffer)-1] = '\0';
+        fgets(buffer, BUFFSIZE, fin);    
+        buffer[strlen(buffer)-1] = '\0';
         strcpy(titolo, buffer);
 
         fgets(buffer, BUFFSIZE, fin);    
-        if (buffer[strlen(buffer)-1] == ' ' || buffer[strlen(buffer)-1] == '\n')
-            buffer[strlen(buffer)-1] = '\0';
-
+        buffer[strlen(buffer)-1] = '\0';
         strcpy(editore, buffer);
-        for (int i = 0; i < strlen(editore); i++){
-            printf("%c (%d) \n", editore[i], editore[i]);
-        }
-        printf("\n");
 
         fgets(buffer, BUFFSIZE, fin);    
-
         anno = atoi(buffer);        
 
         fgets(buffer, BUFFSIZE, fin);    
         prezzo = atof(buffer);
+
         biblioteca[i] = newLibro(titolo, editore, prezzo, anno);
     }
     fclose(fin);
@@ -248,7 +240,7 @@ int main(int argc, char *argv[]){
     if (test == NULL)
         printf("Numero libri insufficienti\n");
     else{
-        printf("Libro più vecchio:\n");
+        printf("Libro piu' vecchio:\n");
         outputLibro(test);
     }
     //ricerca libro meno costoso
@@ -261,13 +253,12 @@ int main(int argc, char *argv[]){
     }
 
     //trova libri editore x
-    char* publisher = "Bompiani";
     int nPublisher = 0;
-    libro* testBiblioteca = searchPublisher(publisher, biblioteca, n, &nPublisher);
+    libro* testBiblioteca = searchPublisher(EDITORE, biblioteca, n, &nPublisher);
     if (nPublisher == 0)
-        printf("%s non ha pubblicato alcun libro\n", publisher);
+        printf("%s non ha pubblicato alcun libro\n", EDITORE);
     else{
-        printf("I libri pubblicati da %s sono %d:\n", publisher, nPublisher);
+        printf("I libri pubblicati da %s sono %d:\n", EDITORE, nPublisher);
         outputBiblioteca(testBiblioteca, nPublisher);
     }
 
