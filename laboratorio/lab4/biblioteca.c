@@ -83,19 +83,26 @@ libro* inputBibliotecaFromFile(int n, char* fInName){
     for(int i = 0; i < n; i++){
 
         fgets(buffer, BUFFSIZE, fin);
-        buffer[strlen(buffer)-1] = '\0';
+        
+        if (buffer[strlen(buffer)-1] == ' ' || buffer[strlen(buffer)-1] == '\n')
+            buffer[strlen(buffer)-1] = '\0';
         strcpy(titolo, buffer);
 
         fgets(buffer, BUFFSIZE, fin);    
-        buffer[strlen(buffer)-1] = '\0';
+        if (buffer[strlen(buffer)-1] == ' ' || buffer[strlen(buffer)-1] == '\n')
+            buffer[strlen(buffer)-1] = '\0';
+
         strcpy(editore, buffer);
-        
+        for (int i = 0; i < strlen(editore); i++){
+            printf("%c (%d) \n", editore[i], editore[i]);
+        }
+        printf("\n");
+
         fgets(buffer, BUFFSIZE, fin);    
-        buffer[strlen(buffer)-1] = '\0';
+
         anno = atoi(buffer);        
 
         fgets(buffer, BUFFSIZE, fin);    
-        buffer[strlen(buffer)-1] = '\0';
         prezzo = atof(buffer);
         biblioteca[i] = newLibro(titolo, editore, prezzo, anno);
     }
@@ -137,12 +144,12 @@ libro CheapestBook(libro* biblioteca, int n){
 //Trova tutti i libri dell’editore X
 libro* searchPublisher(char* publisher, libro* biblioteca, int n, int* np){
     for (int i = 0; i < n; i++){
-        printf("%sa\n%sa\ncmp: %d\n", editore(biblioteca[i]), publisher, !strcmp(editore(biblioteca[i]), publisher));
         if (strcmp(editore(biblioteca[i]), publisher) == 0)
-            *np++;
+            (*np)++;
     }    
-    if (np == 0)
+    if (*np == 0)
         return NULL;
+
     libro* publisherBooks = xmalloc(sizeof(libro) * (*np));
     int counter = 0;
     for (int i = 0; i < n; i++){
@@ -207,8 +214,10 @@ int delete(libro* b, int n, int pos){
 int eliminaLibri(libro* biblioteca,int n, int year){
     int i = 0;
     while(i < n){
-        if (year == anno(biblioteca[i]))
+        if (year == anno(biblioteca[i])){
+            free(biblioteca[i]);
             n = delete(biblioteca, n, i);
+        }
         else i++;
     }
     biblioteca = realloc(biblioteca, sizeof(libro) * n);
