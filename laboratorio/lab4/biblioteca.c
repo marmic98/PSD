@@ -148,7 +148,6 @@ libro* searchPublisher(char* publisher, libro* biblioteca, int n, int* np){
         if (strcmp(editore(biblioteca[i]), publisher) == 0){
             publisherBooks[counter] = biblioteca[i];
             counter++;
-
         }
     }
     return publisherBooks;
