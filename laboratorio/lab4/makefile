@@ -8,4 +8,4 @@ libro.o: libro.c
 	gcc -c libro.c
 
 clean: 
-	del *.o
+	del *.o *.exe
