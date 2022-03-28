@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "utility.h"
 #include "libro.h"
 
 struct lbr{
@@ -13,13 +14,10 @@ struct lbr{
 typedef struct lbr* libro;
 
 libro newLibro(char* titolo, char* editore, float prezzo, int anno){
-    libro l = malloc(sizeof(struct lbr));
-    if (!l){
-        perror(" ");
-        exit(-1);
-    }
-    l->titolo = malloc(100);
-    l->editore = malloc(50);
+    libro l = xmalloc(sizeof(struct lbr));
+    
+    l->titolo = xmalloc(100);
+    l->editore = xmalloc(50);
     strcpy(l->titolo,titolo);
     strcpy(l->editore,editore);
     l->prezzo = prezzo;

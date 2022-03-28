@@ -1,36 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "utility.h"
 #include "libro.h"
 
 #define BUFFSIZE 100
-#define EDITORE "Bompiani"
-#define ANNO 2014
-#define X 20
-
-void* xmalloc(size_t size){
-    void* p = malloc(size);
-    if (!p){
-        printf("Allocazione di %lu bytes fallita\n", size);
-        exit(-1);
-    }
-    return p;
-}
-
-char* readString(){
-    char* s = xmalloc(BUFFSIZE);
-    fgets(s, BUFFSIZE, stdin);
-    int len = strlen(s);
-
-    if (s[len-1] == '\n')
-        s[len-1] = '\0';
-    
-    char* sOut = xmalloc(len+1);
-    strcpy(sOut, s);
-    free(s);
-    return sOut;
-
-}
+#define YELLOW  "\033[33m"      /* Yellow */
+#define GREEN   "\033[32m"      /* Green */
+#define RESET   "\033[0m"
 
 libro* inputBiblioteca(libro* biblioteca, int n){
     biblioteca = xmalloc(sizeof(libro)*n);
@@ -39,10 +16,10 @@ libro* inputBiblioteca(libro* biblioteca, int n){
         while ( (c = getchar()) != '\n' && c != EOF );
         printf("Fornire dati libro n%d\n",i+1);
         printf("Titolo: ");
-        char* titolo = readString();
+        char* titolo = readString(BUFFSIZE);
         
         printf("Editore: ");
-        char* editore = readString();
+        char* editore = readString(BUFFSIZE);
          
         printf("Prezzo: ");
         float prezzo = 0;
@@ -194,7 +171,7 @@ float costoTotale(libro* biblioteca,int n, int year){
     }
     return prezzoTot;
 }
-    
+//non la metto in utility poichè è specifica per le variabili di tipo libro
 int delete(libro* b, int n, int pos){
     for(pos; pos < n - 1; pos++){
         b[pos] = b[pos+1];
@@ -229,53 +206,89 @@ int main(int argc, char *argv[]){
     
     //input biblioteca
     //biblioteca = inputBiblioteca(biblioteca, n);
+    printf("\n%sUpload Libri da file%s\n", GREEN, RESET);
     libro * biblioteca = inputBibliotecaFromFile(n, inputFileName);
     outputBiblioteca(biblioteca, n);
 
     libro test = newLibro("","",0,0);
-
-    //ricerca libro più antico
-    test = oldestBook(biblioteca, n);
-    if (test == NULL)
-        printf("Numero libri insufficienti\n");
-    else{
-        printf("Libro piu' vecchio:\n");
-        outputLibro(test);
-    }
-    //ricerca libro meno costoso
-    test = CheapestBook(biblioteca, n);
-    if (test == NULL)
-        printf("Numero libri insufficienti\n");
-    else{
-        printf("Libro meno costoso:\n");
-        outputLibro(test);
-    }
-
-    //trova libri editore x
-    int nPublisher = 0;
-    libro* testBiblioteca = searchPublisher(EDITORE, biblioteca, n, &nPublisher);
-    if (nPublisher == 0)
-        printf("%s non ha pubblicato alcun libro\n", EDITORE);
-    else{
-        printf("I libri pubblicati da %s sono %d:\n", EDITORE, nPublisher);
-        outputBiblioteca(testBiblioteca, nPublisher);
-    }
-
-    //sconta libri pubblicati nell'anno ANNO dell'X%
-    printf("Sconto dell'%d sui libri pubblicati nell'anno %d\n",X, ANNO);
-    scontaLibri(biblioteca, n, ANNO, X);
-    outputBiblioteca(biblioteca, n); 
-
-    //coppia differenz aprezzo minore
-    printf("Coppia libri differenza di prezzo minore:\n");
-    libro* coppia = trovaLibriPrezzoSimile(biblioteca, n);
-    outputBiblioteca(coppia, 2);
-
-    //costo totale libri nell'anno ANNO
-    printf("Costo totale dei libri pubblicati nell'anno %d: %g\n\n", ANNO, costoTotale(biblioteca, n, ANNO));
-
-    //eliminia libri pubblicati nell'anno
-    printf("Libri pubblicati nell'anno %d eliminati!\n", ANNO);
-    n = eliminaLibri(biblioteca, n, ANNO); //aggiorniamo la lunghezza effettiva dei libri restiendo il nuovo n
-    outputBiblioteca(biblioteca, n); 
+    libro* testBiblioteca;
+    int nPublisher;
+    int choice = 0;
+    float perc = 0;
+    int year = 0;
+    char* publisher;
+    do{
+        printf("%sQuale operazione si desidera effettuare?%s\n1)Libro piu' antico\n2)Libro meno costoso\n3)Libri pubblicati secondo autore\n4)Sconta del 20%% i libri secondo l'anno di pubblicazione\n5)Trova coppia di libri che ha la differenza di prezzo minima\n6)Costo totale libri secondo l'anno di pubblicazione\n7)Elimina i libri secondo l'anno di pubblicazione\n0) Esci\n", YELLOW, RESET);
+        scanf("%d",&choice);
+        if (choice == 1){
+            //ricerca libro più antico
+            test = oldestBook(biblioteca, n);
+            if (test == NULL)
+                printf("Numero libri insufficienti\n");
+            else{
+                printf("Libro piu' vecchio:\n");
+                outputLibro(test);
+            }
+        }
+        else if (choice == 2){
+            //ricerca libro meno costoso
+            test = CheapestBook(biblioteca, n);
+            if (test == NULL)
+                printf("Numero libri insufficienti\n");
+            else{
+                printf("Libro meno costoso:\n");
+                outputLibro(test);
+            }
+        }   
+        else if (choice == 3){
+            //trova libri editore x
+            nPublisher = 0;
+            printf("Fornire editore\n");
+            fflush(stdin);
+            publisher = readString(BUFFSIZE);
+            testBiblioteca = searchPublisher(publisher, biblioteca, n, &nPublisher);
+            if (nPublisher == 0)
+                printf("%s non ha pubblicato alcun libro\n", publisher);
+            else{
+                printf("I libri pubblicati da %s sono %d:\n", publisher, nPublisher);
+                outputBiblioteca(testBiblioteca, nPublisher);
+            }
+            free(publisher);
+        }
+        else if (choice == 4){
+            //sconta libri pubblicati nell'anno ANNO dell'X%
+            perc = 0;
+            year = 0;
+            printf("Fornire percentuale di sconto\n");
+            scanf("%f", &perc);
+            printf("Fornire anno di pubblicazione\n");
+            scanf("%d", &year);
+            printf("Sconto dell'%d sui libri pubblicati nell'anno %d\n",perc, year);
+            scontaLibri(biblioteca, n, year, perc);
+            outputBiblioteca(biblioteca, n); 
+        }
+        else if (choice == 5){
+            //coppia differenz aprezzo minore
+            printf("Coppia libri differenza di prezzo minore:\n");
+            libro* coppia = trovaLibriPrezzoSimile(biblioteca, n);
+            outputBiblioteca(coppia, 2);
+        }
+        else if (choice == 6){
+            //costo totale libri nell'anno ANNO
+            year = 0;
+            printf("Fornire anno di pubblicazione\n");
+            scanf("%d", &year);
+            printf("Costo totale dei libri pubblicati nell'anno %d: %g\n\n", year, costoTotale(biblioteca, n, year));
+        }
+        else if (choice == 7){
+            //eliminia libri pubblicati nell'anno
+            year = 0;
+            printf("Fornire anno di pubblicazione\n");
+            scanf("%d", &year);
+            printf("Libri pubblicati nell'anno %d eliminati!\n", year);
+            n = eliminaLibri(biblioteca, n, year); //aggiorniamo la lunghezza effettiva dei libri restiendo il nuovo n
+            outputBiblioteca(biblioteca, n); 
+        }
+    }while(choice != 0);
+    printf("Arrivederci!\n");
 }
