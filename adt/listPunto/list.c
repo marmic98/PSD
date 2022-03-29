@@ -241,7 +241,6 @@ list sorty (list l) {
     item temp;
 
         i = l;
-        j;
         while (i->next != NULL) {
             j = i->next;
             while(j != NULL){
@@ -253,7 +252,6 @@ list sorty (list l) {
                 }
                 j = j->next;
             }
-        j = i->next->next;
         i = i->next;
         }
     return(l);
