@@ -11,8 +11,6 @@ struct lbr{
     int anno;
 }; 
 
-typedef struct lbr* libro;
-
 libro newLibro(char* titolo, char* editore, float prezzo, int anno){
     libro l = xmalloc(sizeof(struct lbr));
     
@@ -26,6 +24,8 @@ libro newLibro(char* titolo, char* editore, float prezzo, int anno){
 }
 
 char* titolo(libro l){
+    //passare la copia di una stringa sarebbe stato più sicuro poichè non avremmo passato il puntatore 
+    //alla stringa del campo titolo ma il puntatore ad un area di memoria in cui c'è una copia della stringa che abbiamo
     return l->titolo;
 }
 

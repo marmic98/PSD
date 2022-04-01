@@ -142,8 +142,12 @@ list insertList(list l, item e, int pos){
 }
 
 list removeList(list l, int pos){
-    if (pos == 0)
-        return l = tailList(l); //rimozione elemento in testa
+    if (pos == 0){
+        list l1 = tailList(l);;
+        free(l1);
+        return l1;
+
+    } //rimozione elemento in testa
     int size = sizeList(l);
     if (pos > size)
         return l;

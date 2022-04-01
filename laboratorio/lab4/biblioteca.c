@@ -87,15 +87,34 @@ void outputBiblioteca(libro* biblioteca, int n){
     }
 }
 //Ricerca del libro più vecchio
-libro oldestBook(libro* biblioteca, int n){
-    libro oldest = biblioteca[0];
+libro* oldestBook(libro* biblioteca, int n, int* vecchi){
     if (n < 1)
         return NULL; 
+    libro oldest = biblioteca[0];
+    int annoVecchio = 0;
     for(int i = 1; i < n; i++){
-        if (anno(biblioteca[i]) < anno(oldest))
+        if (anno(biblioteca[i]) < anno(oldest)){
             oldest = biblioteca[i];
+            annoVecchio = anno(biblioteca[i]);
+        }    
     }
-    return oldest;
+    if (annoVecchio == 0) annoVecchio = anno(oldest);
+
+    for(int i = 0; i < n; i++){
+        if (anno(biblioteca[i]) == annoVecchio){
+            (*vecchi)++;
+        }    
+    }
+
+    libro* oldestLibrary = xmalloc(sizeof(libro)* (*vecchi));
+    int j = 0;
+    for(int i = 0; i < n; i++){
+        if (anno(biblioteca[i]) == annoVecchio){
+            oldestLibrary[j] = biblioteca[i];
+            j++;
+        }
+    }
+    return oldestLibrary;
 }
 
 //Ricerca del libro meno costoso
@@ -210,7 +229,8 @@ int main(int argc, char *argv[]){
     libro * biblioteca = inputBibliotecaFromFile(n, inputFileName);
     outputBiblioteca(biblioteca, n);
 
-    libro test = newLibro("","",0,0);
+    libro test;
+    libro* test1;  
     libro* testBiblioteca;
     int nPublisher;
     int choice = 0;
@@ -218,16 +238,20 @@ int main(int argc, char *argv[]){
     int year = 0;
     char* publisher;
     do{
-        printf("%sQuale operazione si desidera effettuare?%s\n1)Libro piu' antico\n2)Libro meno costoso\n3)Libri pubblicati secondo autore\n4)Sconta del 20%% i libri secondo l'anno di pubblicazione\n5)Trova coppia di libri che ha la differenza di prezzo minima\n6)Costo totale libri secondo l'anno di pubblicazione\n7)Elimina i libri secondo l'anno di pubblicazione\n0) Esci\n", YELLOW, RESET);
+        printf("%sQuale operazione si desidera effettuare?%s\n1)Libro piu' antico\n2)Libro meno costoso\n3)Libri pubblicati secondo autore\n4)Sconta del 20%% i libri secondo l'anno di pubblicazione\n5)Trova coppia di libri che ha la differenza di prezzo minima\n6)Costo totale libri secondo l'anno di pubblicazione\n7)Elimina i libri secondo l'anno di pubblicazione\n0)Esci\n", YELLOW, RESET);
         scanf("%d",&choice);
+        //system("cls");
         if (choice == 1){
             //ricerca libro più antico
-            test = oldestBook(biblioteca, n);
-            if (test == NULL)
+            int vecchi = 0;
+            test1 = oldestBook(biblioteca, n, &vecchi);
+            if (vecchi == 0 || test1 == NULL){
                 printf("Numero libri insufficienti\n");
+            
+            }
             else{
-                printf("Libro piu' vecchio:\n");
-                outputLibro(test);
+                printf("Libri piu' vecchi:\n");
+                outputBiblioteca(test1, vecchi);
             }
         }
         else if (choice == 2){
