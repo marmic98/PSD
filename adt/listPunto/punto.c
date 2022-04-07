@@ -52,3 +52,4 @@ void swapPunto(punto* a, punto* b){
     *a = *b;
     *b = temp;
 }
+

@@ -165,7 +165,7 @@ list zigzagOrd (list l){
     int position = 0;
     list temp = NULL;
     while (!emptyList(l)){
-        while (ascissa(getFirst(l)) == ascissa(getItem(l, i))){
+        while (ascissa((l)) == ascissa(getItem(l, i))){
             i++;
         }
         printf("1\n");
@@ -187,11 +187,24 @@ list zigzagOrd (list l){
     return (zigzag);
 }
 
+list inputItemFromFile(char* fileName){
+    list l = newList();
+    FILE* fin = fopen(fileName, "r");
+    float x = 0,y = 0;
+    while(fscanf(fin, "%f %f", &x, &y) == 2){
+        item it = creaPunto(x, y);
+        l = consList(it,l);
+    }
+    fclose(fin);
+    return l;
+
+}
+
 int main(){
     int n;
     printf("Fornire dimensione lista di item\n");
     scanf("%d", &n);
-    list l = createList(n);
+    list l = inputItemFromFile("punti.txt");//createList(n);
     l = reverseList(l);
     printLista(l);
     // printf("Fornisci distanza ");
