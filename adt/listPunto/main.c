@@ -3,6 +3,8 @@
 #include "punto.h"
 #include "utility.h"
 
+#define NULLITEM 0
+
 int coppieVicine(list p, float d){
     int counter = 0;
     for(list i = p; i != NULL; i = tailList(i)){
@@ -165,28 +167,31 @@ list zigzagOrd (list l){
     int i = 1;
     int position = 0;
     list temp = NULL;
-    while (position < size){
-        while (ascissa(getFirst(l)) == ascissa(getItem(l, i))){
+    while (l){
+        item temp = getFirst(l);
+        while (((getItem(l, i) != NULLITEM)) && (ascissa(temp) == ascissa(getItem(l, i)))){
             i++;
+            printf("%d\n", i);
         }
         
         temp = sottoLista(&l, 0, i-1);
         
         temp = bubbleSortCrescentey(temp);
-        printf("l edited\n");
-        printLista(l);
+        //printf("l edited ");
+        //printLista(l);
     
         zigzag = inserisci_lista(zigzag, temp, position);
-        printf("zigzag list\n");
-        printLista(zigzag);
-            //freeList(temp);
+        //printf("zigzag list ");
+        
+        freeList(temp);
         
         position += i;
-        printf("i = %d pos = %d size of zigzag = %d\n", i, position, sizeList(zigzag));
-        //printf("pos = %d\n", position);
+        //printf("i = %d pos = %d size of zigzag = %d\n", i, position, sizeList(zigzag));
         i = 0;
+        printLista(zigzag);
     }
-    return (zigzag);
+    printLista(zigzag);
+    return zigzag;
 }
 
 list inputItemFromFile(char* fileName){

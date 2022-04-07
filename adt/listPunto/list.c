@@ -47,7 +47,7 @@ item getFirst(list l){
         e = creaPunto(ascissa(l->value), ordinata(l->value));
     }
     else{
-       e = creaPunto(0,0);
+       e = NULLITEM;
     }
     return e;
 }
