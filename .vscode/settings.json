@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "punto.h": "c",
-        "utility.h": "c"
+        "utility.h": "c",
+        "list.h": "c"
     }
 }

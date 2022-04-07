@@ -22,3 +22,4 @@ list removeListOpt(list l, int pos);
 list removeItemOpt(list l, item e);
 list sorty(list l);
 list sortx(list l);
+void freeList(list l);

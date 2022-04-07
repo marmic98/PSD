@@ -121,7 +121,6 @@ list sottoLista(list* l, int inf, int sup){
         temp = tailList(temp);
     }
     temp2 = reverseList(temp2);
-    printLista(temp2);
     *l = temp2;
     return reverseList(outList);
 }
@@ -159,7 +158,34 @@ list inserisci_lista(list l, list toInsert, int pos){
     return reverseList(outList);
 }
 
-
+list zigzagOrd (list l){
+    list zigzag = NULL;
+    l = bubbleSortCrescentex(l);
+    int i = 1;
+    int position = 0;
+    list temp = NULL;
+    while (!emptyList(l)){
+        while (ascissa(getFirst(l)) == ascissa(getItem(l, i))){
+            i++;
+        }
+        printf("1\n");
+        temp = sottoLista(&l, 0, i-1);
+        printf("2\n");
+        temp = bubbleSortCrescentey(temp);
+        //printLista(temp);
+        printf("3\n");
+        zigzag = inserisci_lista(zigzag, temp, position);
+        printf("4\n");
+        printLista(zigzag);
+        printf("5\n");
+        //freeList(temp);
+        
+        position += i;
+        printf("pos = %d\n", position);
+        i = 0;
+    }
+    return (zigzag);
+}
 
 int main(){
     int n;
@@ -168,7 +194,6 @@ int main(){
     list l = createList(n);
     l = reverseList(l);
     printLista(l);
-
     // printf("Fornisci distanza ");
     // float dist = 0;
     // scanf("%f", &dist);
@@ -191,13 +216,17 @@ int main(){
     // printLista(l);
 
     
-    // list subList = sottoLista(&l, 1, 2);
+    // list subList = sottoLista(&l, 0, 0);
     // printLista(subList);
     // printLista(l);
     // list insert = createList(2);
-    // insert = reverseList(insert);
-    // printLista(insert);
-    // list test = inserisci_lista(l, insert, 2);
-    // printLista(test);
+    //  insert = reverseList(insert);
+    //  printLista(insert);
+    //  list test = inserisci_lista(l, insert, 0);
+    //  printLista(test);
+
+    list test = zigzagOrd(l);
+    printLista(test);
+
 
 }

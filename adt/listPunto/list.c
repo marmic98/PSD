@@ -284,3 +284,12 @@ list sortx(list l) {
     }
     return(l);
 }
+
+void freeList(list l){
+    while(l != NULL){
+        list temp = l;
+        l = l->next;
+        free(temp->value);
+        free(temp);
+    }
+}
