@@ -53,7 +53,7 @@ list bubbleSortCrescentex(list p){
         }
         ordered = consList(getItem(p, position), ordered);
         p = removeListOpt(p, position);
-        x = 0;
+        x = -1;
     }
     
     return ordered;
@@ -72,7 +72,7 @@ list bubbleSortCrescentey(list p){
         }
         ordered = consList(getItem(p, position), ordered);
         p = removeListOpt(p, position);
-        y = 0;
+        y = -1;
     }
     return ordered;
 }
@@ -171,26 +171,15 @@ list zigzagOrd (list l){
         item temp = getFirst(l);
         while (((getItem(l, i) != NULLITEM)) && (ascissa(temp) == ascissa(getItem(l, i)))){
             i++;
-            printf("%d\n", i);
         }
         
         temp = sottoLista(&l, 0, i-1);
-        
-        temp = bubbleSortCrescentey(temp);
-        //printf("l edited ");
-        //printLista(l);
-    
+        temp = bubbleSortCrescentey(temp);    
         zigzag = inserisci_lista(zigzag, temp, position);
-        //printf("zigzag list ");
-        
         freeList(temp);
-        
         position += i;
-        //printf("i = %d pos = %d size of zigzag = %d\n", i, position, sizeList(zigzag));
         i = 0;
-        printLista(zigzag);
     }
-    printLista(zigzag);
     return zigzag;
 }
 
