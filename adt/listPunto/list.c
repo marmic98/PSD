@@ -3,6 +3,8 @@
 #include "punto.h"
 #include "list.h"
 
+#define NULLITEM 0
+
 typedef punto item;
 
 struct node {
@@ -81,6 +83,7 @@ void printLista(list l){
         printf("Item n. %d [%g][%g]\n", i+1, ascissa(l->value), ordinata(l->value));
         l = tailList(l);
     }
+    printf("\n");
 }
 
 int searchItem(item e, list l){
@@ -115,7 +118,7 @@ item getItem(list l, int pos){
     if (!emptyList(l))
         return getFirst(l);
     else 
-        return creaPunto(0,0);
+        return NULLITEM;
 }
 
 list reverseList(list l){
@@ -192,8 +195,9 @@ list insertListOpt(list l, item e ,int pos){
 list removeListOpt(list l, int pos){
     list l1;
     if (pos==0){
-        l1 = l;
-        l = tailList(l);
+        l1 = tailList(l);
+        free(l->value);
+        free(l);
         return(l1);
     }
     int i = 0;
@@ -206,7 +210,8 @@ list removeListOpt(list l, int pos){
     if (l1 == NULL && l1->next == NULL) return l;
     
     list succ = l1->next;
-    l1->next = l1->next->next;   
+    l1->next = l1->next->next;
+    free(succ->value);   
     free(succ);
     return l;  
 }
@@ -240,20 +245,20 @@ list sorty (list l) {
     list j; 
     item temp;
 
-        i = l;
-        while (i->next != NULL) {
-            j = i->next;
-            while(j != NULL){
-                if (!lessy(i->value, j->value)){
-                    temp = (i->value);
-                    i->value = j->value;
-                    j->value = temp;
-                    
-                }
-                j = j->next;
+    i = l;
+    while (i->next != NULL) {
+        j = i->next;
+        while(j != NULL){
+            if (!lessy(i->value, j->value)){
+                temp = (i->value);
+                i->value = j->value;
+                j->value = temp;
+                
             }
-        i = i->next;
+            j = j->next;
         }
+    i = i->next;
+    }
     return(l);
 }
 
@@ -263,21 +268,19 @@ list sortx(list l) {
     list j; 
     item temp;
 
-        i = l;
-        j;
-        while (i->next != NULL) {
-            j = i->next;
-            while(j != NULL){
-                if (!lessx(i->value, j->value)){
-                    temp = (i->value);
-                    i->value = j->value;
-                    j->value = temp;
-                    
-                }
-                j = j->next;
+    i = l;
+    while (i->next != NULL) {
+        j = i->next;
+        while(j != NULL){
+            if (!lessx(i->value, j->value)){
+                temp = (i->value);
+                i->value = j->value;
+                j->value = temp;
+                
             }
-        j = i->next->next;
-        i = i->next;
+            j = j->next;
         }
+    i = i->next;
+    }
     return(l);
 }
