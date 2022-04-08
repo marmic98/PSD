@@ -10,7 +10,7 @@ typedef struct pnt {
 } pnt;
 
 punto creaPunto(float x, float y){
-    punto p = xmalloc(sizeof(pnt));
+    punto p = xmalloc(sizeof(struct pnt));
     p->x = x;
     p->y = y;
     return p;

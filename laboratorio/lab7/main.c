@@ -65,17 +65,16 @@ int deleteItem (stack s, item e){
     stack temp = newStack();
     int counter = 0;
     int i = 0;
-    while(i < sizeStack(s)){
-        printf("%d\n", sizeStack(s));
+    while(!emptyStack(s)){
         if (equal(e, top(s))){
-            pop(s);
             counter++;
+            i = 0;
         }
         else {
-            push(top(s), temp);
-            pop(s);
+            push(top(s), temp);    
             i++;
         }
+        pop(s);
     }
 
     while(!emptyStack(temp)){
