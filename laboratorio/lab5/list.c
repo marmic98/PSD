@@ -47,7 +47,7 @@ item getFirst(list l){
         e = creaPunto(ascissa(l->value), ordinata(l->value));
     }
     else{
-       e = creaPunto(0,0);
+       e = NULLITEM;
     }
     return e;
 }
@@ -80,10 +80,10 @@ list createList(int n){
 void printLista(list l){
     int len = sizeList(l);
     for(int i = 0; i < len;i++){ 
-        printf("Item n. %d [%g][%g]\n", i+1, ascissa(l->value), ordinata(l->value));
+        printf("[%g][%g]-->", i+1, ascissa(l->value), ordinata(l->value));
         l = tailList(l);
     }
-    printf("\n");
+    printf("nil\n");
 }
 
 int searchItem(item e, list l){

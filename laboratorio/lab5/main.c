@@ -3,6 +3,8 @@
 #include "punto.h"
 #include "utility.h"
 
+#define NULLITEM 0
+
 int coppieVicine(list p, float d){
     int counter = 0;
     for(list i = p; i != NULL; i = tailList(i)){
@@ -51,7 +53,7 @@ list bubbleSortCrescentex(list p){
         }
         ordered = consList(getItem(p, position), ordered);
         p = removeListOpt(p, position);
-        x = 0;
+        x = -1;
     }
     
     return ordered;
@@ -70,7 +72,7 @@ list bubbleSortCrescentey(list p){
         }
         ordered = consList(getItem(p, position), ordered);
         p = removeListOpt(p, position);
-        y = 0;
+        y = -1;
     }
     return ordered;
 }
@@ -160,31 +162,25 @@ list inserisci_lista(list l, list toInsert, int pos){
 
 list zigzagOrd (list l){
     list zigzag = NULL;
+    int size = sizeList(l);
     l = bubbleSortCrescentex(l);
     int i = 1;
     int position = 0;
     list temp = NULL;
-    while (!emptyList(l)){
-        while (ascissa((l)) == ascissa(getItem(l, i))){
+    while (l){
+        item temp = getFirst(l);
+        while (((getItem(l, i) != NULLITEM)) && (ascissa(temp) == ascissa(getItem(l, i)))){
             i++;
         }
-        printf("1\n");
-        temp = sottoLista(&l, 0, i-1);
-        printf("2\n");
-        temp = bubbleSortCrescentey(temp);
-        //printLista(temp);
-        printf("3\n");
-        zigzag = inserisci_lista(zigzag, temp, position);
-        printf("4\n");
-        printLista(zigzag);
-        printf("5\n");
-        //freeList(temp);
         
+        temp = sottoLista(&l, 0, i-1);
+        temp = bubbleSortCrescentey(temp);    
+        zigzag = inserisci_lista(zigzag, temp, position);
+        freeList(temp);
         position += i;
-        printf("pos = %d\n", position);
         i = 0;
     }
-    return (zigzag);
+    return zigzag;
 }
 
 list inputItemFromFile(char* fileName){
@@ -202,8 +198,8 @@ list inputItemFromFile(char* fileName){
 
 int main(){
     int n;
-    printf("Fornire dimensione lista di item\n");
-    scanf("%d", &n);
+    // printf("Fornire dimensione lista di item\n");
+    // scanf("%d", &n);
     list l = inputItemFromFile("punti.txt");//createList(n);
     l = reverseList(l);
     printLista(l);
@@ -233,12 +229,13 @@ int main(){
     // printLista(subList);
     // printLista(l);
     // list insert = createList(2);
-    //  insert = reverseList(insert);
-    //  printLista(insert);
-    //  list test = inserisci_lista(l, insert, 0);
-    //  printLista(test);
+    // insert = reverseList(insert);
+    // printLista(insert);
+    // list test = inserisci_lista(l, insert, 0);
+    // printLista(test);
 
-    list test = zigzagOrd(l);
+    list test = newList();
+    test = zigzagOrd(l);
     printLista(test);
 
 
