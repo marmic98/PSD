@@ -2,6 +2,8 @@
     "files.associations": {
         "punto.h": "c",
         "utility.h": "c",
-        "list.h": "c"
+        "list.h": "c",
+        "item.h": "c",
+        "stack.h": "c"
     }
 }
