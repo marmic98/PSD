@@ -4,6 +4,7 @@
         "utility.h": "c",
         "list.h": "c",
         "item.h": "c",
-        "stack.h": "c"
+        "stack.h": "c",
+        "itemstr.h": "c"
     }
 }

@@ -204,7 +204,8 @@ int main(){
     list l = newList();
     l = inputItemFromFile("punti.txt");//createList(n);
     l = reverseList(l);
-    printLista(l);
+    int size = sizeList(l);
+    list temp = l;
     // printf("Fornisci distanza ");
     // float dist = 0;
     // scanf("%f", &dist);
@@ -236,9 +237,9 @@ int main(){
     // list test = inserisci_lista(l, insert, 0);
     // printLista(test);
 
-    list test = newList();
-    test = zigzagOrd(l);
-    printLista(test);
+    // list test = newList();
+    // test = zigzagOrd(l);
+    // printLista(test);
 
 
 }
