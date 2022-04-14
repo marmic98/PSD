@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "itemStr.h"
+#include "item.h"
 #include "stack.h"
 
 #define NULLITEM 0
