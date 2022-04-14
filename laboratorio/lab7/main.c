@@ -4,10 +4,10 @@
 #include "item.h"
 
 stack reverseStack(stack s){
-    stack cloned = newStack();
+    stack reversed = newStack();
     stack temp = newStack();
     while(!emptyStack(s)){
-        push(top(s), cloned);
+        push(top(s), reversed);
         push(top(s), temp);
         pop(s);
     }
@@ -15,7 +15,7 @@ stack reverseStack(stack s){
         push(top(temp), s);
         pop(temp);
     }
-    return(cloned);
+    return(reversed);
 }
 
 stack cloneStack(stack s){
@@ -93,5 +93,11 @@ int main(){
     int x = deleteItem(s3, 3);
     printStack(s3);
     printf("3 deleted %d times\n", x);
+
+    stack s4 = newStack();
+    s4 = cloneStack(s3);
+    pop(s3);
+    printStack(s3);
+    printStack(s4);
 
 }
