@@ -64,15 +64,12 @@ void printStack(stack s){
 int deleteItem (stack s, item e){
     stack temp = newStack();
     int counter = 0;
-    int i = 0;
     while(!emptyStack(s)){
         if (equal(e, top(s))){
             counter++;
-            i = 0;
         }
         else {
             push(top(s), temp);    
-            i++;
         }
         pop(s);
     }
