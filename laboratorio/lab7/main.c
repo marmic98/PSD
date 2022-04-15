@@ -99,5 +99,4 @@ int main(){
     pop(s3);
     printStack(s3);
     printStack(s4);
-
 }

@@ -4,6 +4,7 @@
 #include "item.h"
 #include "list.h"
 
+#define NULLITEM 0
 
 struct node {
      item value;
@@ -32,9 +33,7 @@ list consList(item val, list l)
     new->next = l;
     l=new;
   }
-
   return l;
-
 }
 
 list tailList(list l)
@@ -71,6 +70,7 @@ int sizeList (list l)
   int n = 0;
 
   if(!l)
+  
   {
     return n;
   }
@@ -91,7 +91,7 @@ int posItem (list l, item val)
       return -1;
     }
 
-    if(eq(getFirst(l),val))
+    if(cmp(getFirst(l),val) == 0)
     {
       return 0;
     }
@@ -162,7 +162,7 @@ void outputList (list l)
   while(!emptyList(l))
   {
     val = getFirst(l);
-    output_item(val);
+    printItem(val);
     l = tailList(l);
   }
   printf("nil\n");
@@ -225,3 +225,35 @@ list removeList(list l,int pos)
 
   return l;
 }
+
+list estraiMaxN(list l, int n){
+  if (emptyList(l) || n > sizeList(l))
+    return NULL;
+  list temp = l;
+  int i = 1;
+  int maxPos = 0;
+  while(i <= n){
+    if (cmp(getItem(temp, i), getItem(temp, maxPos)) == 1){
+      maxPos = i;
+    }
+    i++;
+  }
+  l = removeList(l , maxPos);
+  return l;
+}
+
+list insertMinN(list l, item el, int n){
+  if (emptyList(l) || n > sizeList(l))
+      return NULL;
+    list temp = l;
+    int i = 1;
+    int minPos = 0;
+    while(i <= n){
+      if (cmp(getItem(temp, i), getItem(temp, minPos)) == -1)
+        minPos = i;
+      i++;
+    }
+    l = insertList(l , minPos, el);
+    return l;
+}
+

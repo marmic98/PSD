@@ -15,3 +15,5 @@ void outputList (list l);
 list removeList(list l,int pos);
 list cloneList(list l);
 list insertList(list l,int pos,item val);
+list estraiMaxN(list l, int n);
+list insertMinN(list l, item el, int n);
