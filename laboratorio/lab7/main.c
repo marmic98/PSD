@@ -15,6 +15,7 @@ stack reverseStack(stack s){
         push(top(temp), s);
         pop(temp);
     }
+    free(temp); //temp ormai è una lista vuota
     return(reversed);
 }
 
@@ -23,7 +24,6 @@ stack cloneStack(stack s){
     cloned = reverseStack(s);
     cloned = reverseStack(cloned);
     return cloned;
-
 }
 
 stack merge(stack s1, stack s2){
@@ -65,19 +65,17 @@ int deleteItem (stack s, item e){
     stack temp = newStack();
     int counter = 0;
     while(!emptyStack(s)){
-        if (equal(e, top(s))){
+        if (equal(e, top(s)))
             counter++;
-        }
-        else {
+        else
             push(top(s), temp);    
-        }
         pop(s);
     }
-
     while(!emptyStack(temp)){
         push(top(temp), s);
         pop(temp);
     }
+    free(temp);
     return counter;
 }
 
@@ -94,9 +92,9 @@ int main(){
     printStack(s3);
     printf("3 deleted %d times\n", x);
 
-    stack s4 = newStack();
-    s4 = cloneStack(s3);
-    pop(s3);
-    printStack(s3);
-    printStack(s4);
+    // stack s4 = newStack();
+    // s4 = cloneStack(s3);
+    // pop(s3);
+    // printStack(s3);
+    // printStack(s4);
 }

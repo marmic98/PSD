@@ -1,5 +1,5 @@
 #include "item.h"
-#define NULLITEM
+#define NULLITEM 0
 
 item inputItem(){
     item temp = malloc(sizeof(int));
@@ -25,3 +25,6 @@ void printItem(item i){
     printf("[%d] ", i);
 }
 
+int getValue(item i){
+    return (*i);
+}
