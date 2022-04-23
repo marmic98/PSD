@@ -38,6 +38,7 @@ int enqueue (item e, queue q){
     if(!new) return 0;
     
     new->value = e;
+    new->next = NULL;
 
     if (q->head == NULL){
         q->head = new;
@@ -65,4 +66,18 @@ item dequeue(queue q){
 
     q->size--;
     return result;
+}
+
+int getSize(queue q){
+    return q->size;
+}
+
+void printQueue(queue q){
+    nodo temp;
+    temp = q->head;
+    while(temp){
+        printPunto(temp->value);
+        printf("--");
+        temp = temp->next;
+    }
 }

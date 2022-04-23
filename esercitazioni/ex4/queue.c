@@ -38,6 +38,7 @@ int enqueue (item e, queue q){
     if(!new) return 0;
     
     new->value = e;
+    new->next = NULL;
 
     if (q->head == NULL){
         q->head = new;
@@ -74,40 +75,55 @@ item getHead(queue q){
 int isPresentQ(queue q, item e){
     if(emptyQueue(q))
         return NULL;
-    while(!emptyQueue(q) && cmp(e, getHead(q)) == 0)
+    while(!emptyQueue(q) && cmp(e, getHead(q)) != 0)
         dequeue(q);
     return !emptyQueue(q);
 }
 
 queue xorQ(queue q1, queue q2){
-
     queue newQ = newQueue();
-    if (emptyQueue(q1) && emptyQueue(q2))
-        return newQ; //coda vuota
-
-    int deqNeeded = 1;
-    queue temp = newQueue();
-    while(!emptyQueue(q1)){
-        while(!emptyQueue(q2) && deqNeeded){
-            if(cmp(getHead(q1), getHead(q2)) != 0){
-                enqueue(dequeue(q2), temp);
-                deqNeeded = 1;
-            }
-            else{
-                dequeue(q1);
-                dequeue(q2);
-                deqNeeded = 0;
-            }
-        }
-        while(!emptyQueue(temp))
-            enqueue(dequeue(temp), q2);
+    if (emptyQueue(q1) && !emptyQueue(q2))
+        return q2; //coda vuota
+    
+    if (!emptyQueue(q1) && emptyQueue(q2))
+        return q1; //coda vuota
+    
+    nodo temp1 = q1->head;
+    nodo temp2 = q2->head;
+    int flag = 0;
+    while(temp1){
+        while(temp2 && flag == 0){
+            if (cmp(temp1->value, temp2->value) == 0)
+                flag = 1;
+        temp2 = temp2->next;
         
-        if (deqNeeded)
-            enqueue(dequeue(q1), newQ);  
-        deqNeeded = 1; 
+        }
+        if (flag == 0){
+            enqueue(temp1->value, newQ);
+        }
+        
+
+        flag = 0;
+        temp1 = temp1->next;
+        temp2 = q2->head;
+        
     }
 
-    while(!emptyQueue(q2))
-        enqueue(dequeue(q2), newQ);
+    temp1 = q1->head;
+    temp2 = q2->head;
+
+    while(temp2){
+        while(temp1 && flag == 0){
+            if (cmp(temp1->value, temp2->value) == 0)
+                flag = 1;
+        temp1 = temp1->next;
+        }
+        if (flag == 0){
+            enqueue(temp2->value, newQ);
+        }
+        flag = 0;
+        temp2 = temp2->next;
+        temp1 = q1->head;
+    }
     return newQ;
 }

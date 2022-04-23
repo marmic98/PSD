@@ -27,5 +27,4 @@ int main(){
         printItem(dequeue(q3));
     }
     printf("nil\n");
-
 }
