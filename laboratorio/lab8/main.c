@@ -1,22 +1,32 @@
 #include <stdio.h>
 #include "queue.h"
 
-// queue cloneQueue(queue q){
-//     if(!q)
-//         return NULL;
-//     queue cloned = newQueue();
-//     queue tempQ = newQueue();
-//     while(!emptyQueue(q)){
-//         item current = dequeue(q);
-//         enqueue(current, tempQ);
-//         enqueue(current, cloned);
-//     }
-//     while (!emptyQueue(tempQ)){
-//         enqueue(dequeue(tempQ), q);
-//     }
-//     free(tempQ);
-//     return cloned;
-// }
+queue cloneQueue(queue q){
+    if(!q)
+        return NULL;
+    queue cloned = newQueue();
+    queue tempQ = newQueue();
+    while(!emptyQueue(q)){
+        item current = dequeue(q);
+        enqueue(current, tempQ);
+        enqueue(current, cloned);
+    }
+    while (!emptyQueue(tempQ)){
+        enqueue(dequeue(tempQ), q);
+    }
+    free(tempQ);
+    return cloned;
+}
+
+void print(queue q){
+    queue cloned = cloneQueue(q);
+    while (!emptyQueue(cloned)){
+        printPunto(dequeue(cloned));
+        printf("--");
+    }
+        
+    printf("\n");
+}
 
 queue createQueue(){
     queue q = newQueue();
@@ -106,11 +116,15 @@ queue concatena (queue q1, queue q2){
 //id ascissa
 //cicli necessari: ordinata
 void scheduler (queue processes, int cicli){
+    if (emptyQueue(processes)){
+        printf("Coda dei processi vuota\n");
+    }
+        
     while (!emptyQueue(processes)){
         item proc = dequeue(processes);
-        float cpuBurst = ordinata(proc) - cicli;
-        if (cpuBurst > 0){
-            enqueue(creaPunto(ascissa(proc), cpuBurst), processes);
+        float toExecute = ordinata(proc) - cicli;
+        if (toExecute > 0){
+            enqueue(creaPunto(ascissa(proc), toExecute), processes);
         }
 
     printQueue(processes);
@@ -122,7 +136,6 @@ void scheduler (queue processes, int cicli){
 int main(){
     queue q = newQueue();
     q = createQueue();
-    //printQueue(q);
 
     queue q1, q2, q3, q4;
 
@@ -143,8 +156,7 @@ int main(){
     //printQueue(q4);
     
     printf("lunghezza spezzata: %g\n", spezzata(q));
-    printQueue(q);
-
+    print(q);
     // queue cat = concatena(q4, q3);
     // cat = concatena(cat, q2);
     // cat = concatena(cat, q1);

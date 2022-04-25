@@ -4,8 +4,8 @@ main.exe: main.o item.o queue.o
 item.o: item.c
 	gcc -c item.c
 	
-queue.o: queue.c 
-	gcc -c queue.c
+queue.o: queue.c item.o
+	gcc -c queue.c item.o
 	
 main.o: main.c item.o queue.o
 	gcc -c main.c item.o queue.o 

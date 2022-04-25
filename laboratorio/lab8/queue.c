@@ -80,4 +80,5 @@ void printQueue(queue q){
         printf("--");
         temp = temp->next;
     }
+    printf("\n");
 }
