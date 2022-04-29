@@ -275,8 +275,7 @@ list sortx(list l) {
             if (!lessx(i->value, j->value)){
                 temp = (i->value);
                 i->value = j->value;
-                j->value = temp;
-                
+                j->value = temp;       
             }
             j = j->next;
         }

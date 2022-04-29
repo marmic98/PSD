@@ -15,5 +15,5 @@ void hanoi(char a, char b, char c, int n){
 
 int main(){
     char a = 'a', b = 'b', c = 'c';
-    hanoi(a, b, c, 5);
+    hanoi(a, b, c, 64);
 }
