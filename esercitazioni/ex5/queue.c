@@ -133,7 +133,7 @@ queue fondiQueue(queue q1, queue q2){
         temp1 = temp1->next;
     }
     
-    q3->head = deleteDuplicates(q3->head);
+    q3 = deleteDuplicates(q3->head);
     
     return q3;
 }
