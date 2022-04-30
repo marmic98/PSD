@@ -70,6 +70,7 @@ void sottoCode(queue q, queue q1, queue q2, queue q3, queue q4){
         if (ascissa(curr) >= 0 && ordinata(curr) < 0)
             enqueue(curr, q4);
     }
+    free(q);
 }
 
 //pre: /
@@ -82,6 +83,7 @@ float spezzata(queue q){
 
     queue copyQ = newQueue();
     item curr = dequeue(q);
+    
     item next = dequeue(q);
     lunghezza = distanza(curr, next);
     
