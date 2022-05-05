@@ -7,19 +7,19 @@ struct myItem{
     int val;
 };
 
-item1 cv(int x){
-    item1 i = malloc(sizeof(int));
-    *i = x;
-    return i;
-}
+// item1 cv(int x){
+//     item1 i = malloc(sizeof(int));
+//     *i = x;
+//     return i;
+// }
 
-int retValue(item1 i){
-    return *i;
-}
+// int retValue(item1 i){
+//     return *i;
+// }
 
-void pv(item1 p){
-    printf("%d", *p);
-}
+// void pv(item1 p){
+//     printf("%d", *p);
+// }
 
 item createItem(int x){
     item i = malloc(sizeof(struct myItem));

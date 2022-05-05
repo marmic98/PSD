@@ -53,24 +53,32 @@ queue createQueue(){
 //precondizione: q = <a1, a2, ..., an> con n >= 0 e q1, q2, q3, q4 vuote. Esse servono a contenere i punti per i quattro quadranti
 //postcondizione: q = nil. q1 contiene i punti del primo quadrante (++), q2 del secondo (-+), q3 del terzo (--) e q4 del quarto (+-)
 //                  lo zero è inteso come appartenente al primo quadrante
-void sottoCode(queue q, queue q1, queue q2, queue q3, queue q4){
+queue* sottoCode(queue q){
     if (emptyQueue(q))
         printf("Coda vuota\n");
+    
+    queue* quadranti = malloc(sizeof(queue)*4);
+    quadranti[0] = newQueue();
+    quadranti[1] = newQueue();
+    quadranti[2] = newQueue();
+    quadranti[3] = newQueue();
+
     while(!emptyQueue(q)){
         item curr = dequeue(q);
         if (ascissa(curr) >= 0 && ordinata(curr) >= 0)
-            enqueue(curr, q1);
+            enqueue(curr, quadranti[0]);
         
         if (ascissa(curr) < 0 && ordinata(curr) >= 0)
-            enqueue(curr, q2);
+            enqueue(curr, quadranti[1]);
 
         if (ascissa(curr) < 0 && ordinata(curr) < 0)
-            enqueue(curr, q3);
+            enqueue(curr, quadranti[2]);
         
         if (ascissa(curr) >= 0 && ordinata(curr) < 0)
-            enqueue(curr, q4);
+            enqueue(curr, quadranti[3]);
     }
     free(q);
+    return quadranti;
 }
 
 //pre: /
@@ -139,8 +147,8 @@ int main(){
     queue q = newQueue();
     q = createQueue();
 
-    queue q1, q2, q3, q4;
-
+    //queue q1, q2, q3, q4;
+    queue* quad = sottoCode(q);
     // q1 = newQueue();
     // q2 = newQueue();
     // q3 = newQueue();
@@ -148,14 +156,14 @@ int main(){
 
     //sottoCode(q, q1, q2, q3, q4);
     
-    //printf("1 quadrante\n");
-    //printQueue(q1);
-    //printf("2 quadrante\n");
-    //printQueue(q2);
-    //printf("3 quadrante\n");
-    //printQueue(q3);
-    //printf("4 quadrante\n");
-    //printQueue(q4);
+    printf("1 quadrante\n");
+    printQueue(quad[0]);
+    printf("2 quadrante\n");
+    printQueue(quad[1]);
+    printf("3 quadrante\n");
+    printQueue(quad[2]);
+    printf("4 quadrante\n");
+    printQueue(quad[3]);
     
     printf("lunghezza spezzata: %g\n", spezzata(q));
     print(q);
