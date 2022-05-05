@@ -6,6 +6,7 @@
         "item.h": "c",
         "stack.h": "c",
         "itemstr.h": "c",
-        "queue.h": "c"
+        "queue.h": "c",
+        "stdlib.h": "c"
     }
 }

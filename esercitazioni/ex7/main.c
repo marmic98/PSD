@@ -80,10 +80,12 @@ int deleteItem (stack s, item e){
     return counter;
 }
 
-void enqueue(stack s, item el){
-    if (emptyStack(s))
+int enqueue(stack s, item el){
+    if (emptyStack(s)){
         push(el, s);
-
+        return 1;
+    }
+        
     stack temp = newStack();
     while(!emptyStack(s)){
         push(top(s), temp);
@@ -94,7 +96,8 @@ void enqueue(stack s, item el){
     while(!emptyStack(temp)){
         push(top(temp), s);
         pop(temp);
-    }     
+    }
+    return 1;     
 }
 
 int main(){
