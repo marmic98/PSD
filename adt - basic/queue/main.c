@@ -41,7 +41,7 @@ void printQueueClient(queue q){
         printItem(dequeue(printable));
         printf("--");
     }
-    printf("tail");
+    printf("tail\n");
     free(printable);
 }
 
@@ -61,11 +61,32 @@ queue reverseQueue(queue q){
     return reverse;
 }
 
-int main(){
-    queue q = newQueue();
-    q = inputQueue(4);
-    printQueue(q);
+void mergeQueueClient(queue q1, queue q2){
+    while(!emptyQueue(q2)){
+        enqueue(dequeue(q2), q1);
+    }
+    //return s1;
+}
 
-    queue rev = reverseQueue(q);
-    printQueueClient(rev);
+int main(){
+    queue q1 = newQueue();
+    q1 = inputQueue(4);
+    //printQueue(q);
+
+
+
+    // queue rev = reverseQueue(q1);
+    // printQueueClient(rev);
+    queue q2 = newQueue();
+    enqueue(createItem(1), q2);
+    enqueue(createItem(2), q2);
+    enqueue(createItem(3), q2);
+    enqueue(createItem(4), q2);
+    
+    printQueueClient(q1);
+    printQueueClient(q2);
+
+    mergeQueueClient(q1, q2);
+    printQueueClient(q1);
+    
 }
