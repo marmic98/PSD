@@ -17,6 +17,27 @@ int ennesimoQuadrato(int n){
         return ennesimoQuadrato(n-1) + (2*n-1);   
 }
 
+int mcd(int m, int n, int d){
+    if(d == n){
+        return d;
+    } 
+    else if (d > n){
+        d = m - n;
+        return mcd(d, n, d);
+    }
+    else {
+        d = n - d;
+        return mcd(n, d, d);
+    }
+}
+
+int MCD(int m, int n){
+    if (m > n)
+        return mcd(m, n, m - n);
+    else
+        return mcd(n, m, n - m);
+}
+
 int pal(char* str, int i, int f){
     if(str[i] != str[f])
         return 0;
@@ -30,7 +51,18 @@ int palindroma(char* str){
     return pal(str, 0, strlen(str)-1);
 }
 
+int tart(int r, int c){
+    if(r == c)
+        return 1;
 
+    if (r < 3)
+        return 1;
+
+    if (c < 2)
+        return 1;
+    else
+        return tart(r-1, c-1) + tart(r-1, c);
+}
 
 int main(){
     list l = newList();
@@ -42,6 +74,10 @@ int main(){
 
     printf("quadrato = %d\n", ennesimoQuadrato(5));
 
-    printf("%s palindroma? %s\n","ingegni", palindroma("ingehgni") ? "si" : "no");
+    printf("mcd: %d\n", MCD(300, 16));
+
+    printf("%s palindroma? %s\n","ingegni", palindroma("ingegni") ? "si" : "no");
+
+    printf("tartaglia: %d\n", tart(6,3));
 }
 
