@@ -52,13 +52,13 @@ int palindroma(char* str){
 }
 
 int tart(int r, int c){
-    if(r == c)
+    if(r == c)//diagonale restituisce 1
         return 1;
 
-    if (r < 3)
+    if (r < 3) //righe 1 e 2 restituisce 1
         return 1;
 
-    if (c < 2)
+    if (c < 2)//colonne 1 restituisce 1
         return 1;
     else
         return tart(r-1, c-1) + tart(r-1, c);
@@ -78,6 +78,6 @@ int main(){
 
     printf("%s palindroma? %s\n","ingegni", palindroma("ingegni") ? "si" : "no");
 
-    printf("tartaglia: %d\n", tart(6,3));
+    printf("tartaglia: %d\n", tart(14,3));
 }
 
