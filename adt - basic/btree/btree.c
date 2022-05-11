@@ -12,8 +12,9 @@ struct node {
 };
 
 item getItem(struct node *N){
-      if (N == NULL)  return NULLITEM;
-      return N->value;
+    if (N == NULL)  
+        return NULLITEM;
+    return N->value;
 }
 
 void setItem(struct node *N, item el){
