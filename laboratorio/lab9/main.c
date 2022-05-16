@@ -11,6 +11,8 @@ int sizeListRicursive(list l){
 }
 
 int ennesimoQuadrato(int n){
+    //se n negativo lo moltiplico per -1
+    //oppure return quadrato(-n)
     if(n == 1)
         return 1;
     else 
@@ -64,20 +66,38 @@ int tart(int r, int c){
         return tart(r-1, c-1) + tart(r-1, c);
 }
 
+list subListRic(list l, int i, int f, list subL, int k){
+    if (k > f)
+        return subL;
+    else if (k >= i && k <= f){
+        return subL = subListRic(tailList(l), i, f, consList(getFirst(l), subL), ++k);
+    } 
+    else 
+        return subL = subListRic(tailList(l), i, f, subL, ++k);
+    
+}
+
 int main(){
     list l = newList();
 
     l = consList(createItem(1), l);
     l = consList(createItem(2), l);
     l = consList(createItem(3), l);
+    l = consList(createItem(4), l);
+    l = consList(createItem(5), l);
     printf("size l = %d\n", sizeListRicursive(l));
 
     printf("quadrato = %d\n", ennesimoQuadrato(5));
 
-    printf("mcd: %d\n", MCD(300, 16));
+    printf("mcd: %d\n", MCD(567, 2));
 
     printf("%s palindroma? %s\n","ingegni", palindroma("ingegni") ? "si" : "no");
 
     printf("tartaglia: %d\n", tart(14,3));
+
+    list s = newList();
+    list test = NULL;
+    test = subListRic(l, 1, 2, s, 0);
+    outputList(test);
 }
 

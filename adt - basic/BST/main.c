@@ -22,22 +22,31 @@ Btree inputBtree(){
     return consBtree(createItem(x), sx , dx);
 }
 
+int nodeCounter(Btree b){
+    if(emptyBtree(b))
+        return 0;
+    else 
+        return nodeCounter(figlioDX(b)) + nodeCounter(figlioSX(b)) + 1;
+}
+
 void printBTree(Btree b){
     if (emptyBtree(b)){
-        printf("nil\n");
+        printf("nil");
         return;
     }   
     else{
         printItem(getItem(getRoot(b)));
-        printf("\n");
+        
         printf("sx ");
         printBTree(figlioSX(b));
         printf("dx ");
         printBTree(figlioDX(b));
+        
     }
 }
 
 int main(){
     Btree b = inputBtree();
     printBTree(b);
+    printf("numero di nodi %d\n", nodeCounter(b));
 }
