@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "PQueue.h"
+
 #define MAXPQ 50
 
 struct c_PQ {
