@@ -4,6 +4,8 @@ typedef struct node *Btree;
 
 Btree newBtree(void);
 
+int addNode(Btree T, item daInserire);
+
 int emptyBtree(Btree T);
 
 Btree figlioSX(Btree T);

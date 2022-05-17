@@ -19,8 +19,9 @@ item getItem(struct node *N){
 }
 
 void setItem(struct node *N, item el){
-    if (N==NULL) return;
-        N->value = el;
+    if (N==NULL) 
+        return;
+    N->value = el;
 }         
 
 
@@ -45,6 +46,21 @@ Btree consBtree(item val, Btree sx, Btree dx){
  	    nuovo->right = dx;
     }
     return nuovo;
+}
+
+int addNode(Btree T, item daInserire){
+    Btree newNode= consBtree(daInserire, NULL, NULL);
+    
+    if(T->left == NULL){
+        T->left= newNode;
+        return 1;
+    }
+    else if(T->right == NULL){
+        T->right== newNode;
+        return 1;
+    }
+    
+    return 0;
 }
 
 Btree figlioSX(Btree T){
