@@ -2,7 +2,17 @@
 #include <stdlib.h>
 #include "btree.h"
 #include "item.h"
-#include "stack.h"
+
+int fileLineCounter(char* finName){
+    FILE* fin = fopen(finName, "r");
+    if (fin == NULL)
+        return -1;
+    int size = 0;
+    int x = 0;
+    while(fscanf(fin, "%d", &x) == 1) size++;
+    fclose(fin);
+    return size;   
+}
 
 Btree inputBtree(){
     Btree sx = newBtree();
@@ -177,40 +187,30 @@ void livello(Btree b, int level, int c){
     }
 }
 
-Btree RinputBtree(int i,FILE *fcon, int dim){
-    int num;
-
-    float f=roundf(log2f(dim+1))-1;
-
-    if(i > f || feof(fcon)){
-        return NULL;
-    }
-
-    fscanf(fcon, "%d\n", &num);
-    item t = createItem(num);
-
-    return consBtree(t, RinputBtree(i+1, fcon, dim), RinputBtree(i+1, fcon, dim));
-}
-
-
-int fileLineCounter(char* finName){
-    FILE* fin = fopen(finName, "r");
-    if (fin == NULL)
-        return -1;
-    int size = 0;
+Btree RinputBtree(int *a, int i, int n){
+    Btree sx = newBtree();
+    Btree dx = newBtree();
     int x = 0;
-    while(fscanf(fin, "%d", &x) == 1) size++;
-    fclose(fin);
-    return size;
+    if (i < n){
+        sx = RinputBtree(a, 2*i+1,n);
+        dx = RinputBtree(a, 2*i+2, n);
+        return consBtree(createItem(a[i]), sx , dx);
+    }
+    else 
+        return newBtree();   
     
 }
+
 //funzione che legge da file n interi e riempie un albero
 //binario in modo uniforme
 Btree inputBtreeFile(char *path_name){
     FILE *fcon= fopen(path_name, "r");
     printf("il file ha %d numeri\n", fileLineCounter(path_name));
-
-    Btree new = RinputBtree(0, fcon, fileLineCounter(path_name));
+    int *a = malloc(sizeof(int)* fileLineCounter(path_name));
+    for(int i = 0; i < fileLineCounter(path_name); i++){
+        fscanf(fcon, "%d", &a[i]);
+    }
+    Btree new = RinputBtree(a, 0, fileLineCounter(path_name));
 
     fclose(fcon);
     return new;
