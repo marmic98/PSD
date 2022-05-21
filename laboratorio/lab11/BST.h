@@ -9,4 +9,3 @@ BST insert(BST T, item elem);
 int contains(BST T, item elem);
 BST deleteNode(BST T, item elem);
 BST creaFoglia(item elem);
-
