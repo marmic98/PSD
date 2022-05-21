@@ -25,19 +25,11 @@ int contaFoglie(Btree root){
 
 Btree speculare (Btree root){
     if (emptyBtree(root))
-        return;
-    else if (emptyBtree(figlioSX(root)) && emptyBtree(figlioDX(root))){
+        return newBtree();
+    else if (emptyBtree(figlioSX(root)) && emptyBtree(figlioDX(root)))
         return consBtree(getItem(getRoot(root)), newBtree(), newBtree());
-    }
-    else if (!emptyBtree(figlioSX(root)) && !emptyBtree(figlioDX(root))){
-        return consBtree(getItem(getRoot(root)), speculare(figlioDX(root)), speculare(figlioSX(root)));
-    }
-    else if (emptyBtree(figlioSX(root)) && !emptyBtree(figlioDX(root))){
-        return consBtree(getItem(getRoot(root)), speculare(figlioDX(root)), newBtree());
-    }
-    else if (!emptyBtree(figlioSX(root)) && emptyBtree(figlioDX(root))){
-        return consBtree(getItem(getRoot(root)), newBtree(), speculare(figlioSX(root)));
-    }
+
+    return consBtree(getItem(getRoot(root)), speculare(figlioDX(root)), speculare(figlioSX(root)));
 }
 
 int maxBTree(Btree b){
@@ -69,12 +61,11 @@ int minBTree(Btree b){
 }
 
 int eqBTree(Btree b1, Btree b2){
-
     if(emptyBtree(b1) && emptyBtree(b2))
         return 1;
     int eqSx =  eqBTree(figlioSX(b1), figlioSX(b2));
     int eqDx =  eqBTree(figlioDX(b1), figlioDX(b2));
-    if ((eqSx && eqDx) && getValue(getItem(getRoot(b1))) == getValue(getItem(getRoot(b2))))
+    if (eqSx && eqDx && getValue(getItem(getRoot(b1))) == getValue(getItem(getRoot(b2))))
         return 1;
     return 0;
 }
@@ -91,16 +82,17 @@ void aggiungiNode(Btree b, item e, int* inserito){
     aggiungiNode(figlioSX(b), e, inserito);
     aggiungiNode(figlioDX(b), e, inserito);
 }
-void livello(Btree b, int level, int c){
+int hightLevel(Btree b){
     if(emptyBtree(b))
-        return;
-    if (level == c){
-        printItem(getItem(getRoot(b)));
-        return;
-    }
+        return 0;
     else{
-        livello(figlioDX(b), level, c+1);
-        livello(figlioSX(b), level, c+1); 
+        int l = hightLevel(figlioSX(b));
+        int d = hightLevel(figlioDX(b));
+
+        if(l < d)
+            return d + 1;
+        else 
+            return l + 1;
     }
 }
 
@@ -126,6 +118,28 @@ Btree inputBtreeFile(char *path_name){
     return new;
 }
 
+void livelloCounter(Btree b, int level, int k, int* counter){
+    if(emptyBtree(b))
+        return;
+    if (level == k){
+        *counter = *counter + 1;
+        return;
+    }
+    else{
+        livelloCounter(figlioDX(b), level, k+1, counter);
+        livelloCounter(figlioSX(b), level, k+1, counter); 
+    }
+}
+
+int lev(Btree b, int level, int k){
+    if(emptyBtree(b))
+        return 0 ;
+    if (level == k)
+        return 1;
+    else
+        return lev(figlioDX(b), level, k+1) + lev(figlioSX(b), level, k+1); 
+}
+
 int main(){
     //int a = {0,1,2,3,4,5,6,7,8,9}; 
     //Btree b = newBtree();
@@ -133,17 +147,17 @@ int main(){
     Btree b1 = inputBtreeFile("input1.txt");
     print2D(b1);
 
-    Btree b2 = inputBtreeFile("input2.txt");
-    print2D(b2);
+    // Btree b2 = inputBtreeFile("input2.txt");
+    // print2D(b2);
     
 
-    printf("alberi uguali? %d\n", eqBTree(b1, b2));
+    //printf("alberi uguali? %d\n", eqBTree(b1, b2));
     
     // printf("numero di nodi: %d\n", nodeCounter(b1));
     // printf("numero di foglie: %d\n", contaFoglie(b1));
     // printf("altezza albero: %d\n", hightLevel(b1));
     // printf("speculare\n");
-    // print2D(speculare(b1));
+    print2D(speculare(b1));
     // livello(b1, 2, 1);
     // int flag = 0;
     // aggiungiNode(b1, createItem(666), &flag);

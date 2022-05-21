@@ -174,16 +174,38 @@ void inorder(Btree b){
 }
 
 
-void livello(Btree b, int level, int c){
+void livelloCounter(Btree b, int level, int k, int* counter){
     if(emptyBtree(b))
         return;
-    if (level == c){
+    if (level == k){
+        *counter = *counter + 1;
+        return;
+    }
+    else{
+        livelloCounter(figlioDX(b), level, k+1, counter);
+        livelloCounter(figlioSX(b), level, k+1, counter); 
+    }
+}
+
+int lev(Btree b, int level, int k){
+    if(emptyBtree(b))
+        return 0 ;
+    if (level == k)
+        return 1;
+    else
+        return lev(figlioDX(b), level, k+1) + lev(figlioSX(b), level, k+1); 
+}
+
+void livello(Btree b, int level, int k){
+    if(emptyBtree(b))
+        return;
+    if (level == k){
         printItem(getItem(getRoot(b)));
         return;
     }
     else{
-        livello(figlioDX(b), level, c+1);
-        livello(figlioSX(b), level, c+1); 
+        livello(figlioDX(b), level, k+1);
+        livello(figlioSX(b), level, k+1); 
     }
 }
 
@@ -217,11 +239,12 @@ int main(){
     Btree b1 = inputBtreeFile("input1.txt");
     print2D(b1);
 
-    Btree b2 = inputBtreeFile("input2.txt");
-    print2D(b2);
-    
-
-    printf("alberi uguali? %d\n", eqBTree(b1, b2));
+    // Btree b2 = inputBtreeFile("input2.txt");
+    // print2D(b2);
+    int counter = 0;
+    livelloCounter(b1, 3,1, &counter);
+    printf("nodi al livello 3 = %d\n", lev(b1, 3, 1));
+    //printf("alberi uguali? %d\n", eqBTree(b1, b2));
     
     // printf("numero di nodi: %d\n", nodeCounter(b1));
     // printf("numero di foglie: %d\n", contaFoglie(b1));
