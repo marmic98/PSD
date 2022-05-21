@@ -1,4 +1,3 @@
-
 typedef struct node *BST;
 
 BST newBST(void);

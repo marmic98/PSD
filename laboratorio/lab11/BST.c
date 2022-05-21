@@ -11,15 +11,15 @@ struct node {
     struct node *right;
 };
 
-item getItem(struct node *N){
-    if (N == NULL)  return NULLITEM;
-    return N->value;
-}
+// item getItem(struct node *N){
+//     if (N == NULL)  return NULLITEM;
+//     return N->value;
+// }
 
-void setItem(struct node *N, item el){
-    if (N==NULL) return;
-    N->value = el;  // correttezza di =
-}                             // dipende dal tipo item
+// void setItem(struct node *N, item el){
+//     if (N==NULL) return;
+//     N->value = el;  // correttezza di =
+// }                             // dipende dal tipo item
 
 BST newBST (void){
     return NULL;
