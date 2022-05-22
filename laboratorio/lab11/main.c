@@ -81,19 +81,6 @@ int isBst(Btree t){
     return (isBst(figlioSX(t)) && isBst(figlioDX(t)));   
 }
 
-int altezza(Btree b){
-    if (emptyBtree(b))
-        return 0;
-    else{
-        int l = altezza(figlioSX(b));
-        int r = altezza(figlioDX(b));
-        if (l > r)
-            return l+1;
-        else 
-            return r+1;
-    }
-}
-
 //precondizione 
 //n elementi = (2^k)-1
 //array ordinato in mod crescente              
@@ -103,7 +90,6 @@ BST bilanciato(int* a, int i, int f){
     
     int mid = (i+f)/2;
     return consBtree(createItem(a[mid]), bilanciato(a, i, mid-1), bilanciato(a, mid+1, f));
-     
 }
 
 void printInterval(BST root, int a , int b){
@@ -119,26 +105,36 @@ void printInterval(BST root, int a , int b){
     printInterval(figlioDX(root), a, b); //controlliamo l'albero destro. li stamperemo progressivamente poichè la chiamata esegue la riga 101 ed effettuare lo stesso contorllo che permette di partitre dal piu piccolo
 }
 
-int maxArrayRicorsivo(int *a, int i, int n){
-    if (n == 1)
-        return a[0];
-    if (i < n){
-        if (a[i] < maxArrayRicorsivo(a, i+1, n))
-            return maxArrayRicorsivo(a, i+1, n);
+int altezza(Btree b){
+    if (emptyBtree(b))
+        return 0;
+    else{
+        int l = altezza(figlioSX(b));
+        int r = altezza(figlioDX(b));
+        if (l > r)
+            return l+1;
         else 
-            return a[i];
+            return r+1;
     }
 }
 
-int minArrayRicorsivo(int *a, int i, int n){
-    if (n == 1)
-        return a[0];
-    if (i < n){
-        if (a[i] > minArrayRicorsivo(a, i+1, n))
-            return minArrayRicorsivo(a, i+1, n);
+
+
+int mediano(BST b, int u, int i){
+    if (i = (nodeCounter(b)+1)/2){
+        if (getValue(getItem(getRoot(b))) == u)
+            return 1;
         else 
-            return a[i];
+            return 0;
     }
+    else
+        mediano(b, u, i+1);
+}
+
+int nodeCounter(BST b){
+    if (emptyBST(b))
+        return 0;
+    return nodeCounter(figlioSX(b)) + nodeCounter(figlioDX(b)) + 1; 
 }
 
 int main(){
@@ -157,10 +153,13 @@ int main(){
     //print2D(b);
     list onLevK = newList();
     int i = 0;
+    printf("nodi ad altezza 3\n");
     nodiAltezzaK(b, &onLevK, 3, 1);
     outputList(onLevK);
     printf("\n");
+    printf("nodi nell'intervallo 1 - 10 contenuti nel bst\n");
     printInterval(b, 1, 10);
-    //printf("max = %d\n", maxArrayRicorsivo(a, 0, 9));
-    //printf("min = %d\n", minArrayRicorsivo(a, 0, 9));
+    printf("\n");
+    int med = 3;
+    printf("%d is mediano? %s\n",med, mediano(b, med, 0) ? "si" : "no");
 }
