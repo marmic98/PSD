@@ -94,17 +94,29 @@ int altezza(Btree b){
     }
 }
 
-void printInterval(BST root, int a , int b){
-    if (emptyBST(root))
-        return;
+//precondizione 
+//n elementi = (2^k)-1
+//array ordinato in mod crescente              
+BST bilanciato(int* a, int i, int f){
+    if(i > f)
+        return newBST();
+    
+    int mid = (i+f)/2;
+    return consBtree(createItem(a[mid]), bilanciato(a, i, mid-1), bilanciato(a, mid+1, f));
+     
+}
 
+void printInterval(BST root, int a , int b){
+    if (emptyBST(root)){
+        return;
+    }
     if (a < getValue(getItem(getRoot(root))))
-        printInterval(figlioSX(root), a, b); //prima di effettuare la stampa arrivo all'elemento più piccolo
+        printInterval(figlioSX(root), a, b); //prima di effettuare la stampa arrivo all'elemento più piccolo. Stampa a ritroso
     if ((a <= getValue(getItem(getRoot(root)))) && b >= getValue(getItem(getRoot(root)))){//se è compreso tra a e b allora lo stampa in modo crescente
         printItem(getItem(getRoot(root)));
-        printf("\n");
+        printf("-->");
     }
-    printInterval(figlioDX(root), a, b); //controlliamo l'albero destro li stamperemo progressivamente poichè la chiamata esegue la riga 101 ed effettuare lo stesso contorllo che permette di partitre dal piu piccolo
+    printInterval(figlioDX(root), a, b); //controlliamo l'albero destro. li stamperemo progressivamente poichè la chiamata esegue la riga 101 ed effettuare lo stesso contorllo che permette di partitre dal piu piccolo
 }
 
 int maxArrayRicorsivo(int *a, int i, int n){
@@ -130,16 +142,18 @@ int minArrayRicorsivo(int *a, int i, int n){
 }
 
 int main(){
-    int a[9] = {15,10,20,2,4,5,21,0,120};
+    int a[7] = {0,1,2,3,4,5,6};
     // Btree b = newBtree();
     // b = inputBtreeFromArray(a, 0, 9);
     // printf("b altezza =  %d\n", altezza(b));
     // printBTree(b, 0, altezza(b));
     // printf("b e' un BST? %d\n", isBst(b));
 
-    BST b = insertFromArray(a, 9);
+    //BST b = insertFromArray(a, 7);
+    BST b = newBST();
+    b = bilanciato(a, 0, 6);
     printBST(b, 0, altezza(b));
-    printf("b e' un BST? %d\n", isBst(b));
+    printf("is BST? %d\n", isBst(b));
     //print2D(b);
     list onLevK = newList();
     int i = 0;

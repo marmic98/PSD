@@ -128,6 +128,7 @@ void outputList (list l){
     while(!emptyList(l)){
         val = getFirst(l);
         printItem(val);
+        printf("-->");
         l = tailList(l);
     }
     printf("nil\n");
