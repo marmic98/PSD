@@ -121,6 +121,7 @@ int altezza(Btree b){
 
 
 int mediano(BST b, int u, int i){
+    printf("nodes: %d\n", nodeCounter(b));
     if (i = (nodeCounter(b)+1)/2){
         if (getValue(getItem(getRoot(b))) == u)
             return 1;
