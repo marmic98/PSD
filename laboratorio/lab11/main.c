@@ -161,7 +161,9 @@ int oneChild(BST b){
 int distanceFromLCA(BST b, int x){
     if (emptyBST(b) || getValue(getItem(getRoot(b))) == x)
         return 0;
-    else 
+    else if (getValue(getItem(getRoot(b))) > x)
+        return distanceFromLCA(figlioSX(b), x) + 1;
+    else if (getValue(getItem(getRoot(b))) < x)
         return distanceFromLCA(figlioDX(b), x) + 1;
 }
 
@@ -172,7 +174,7 @@ BST LCA(BST b, int x, int y){
         return LCA(figlioSX(b), x, y);
     if (getValue(getItem(getRoot(b))) < x)
         return LCA(figlioDX(b), x, y);
-        
+
     return b;
 }
 
@@ -180,10 +182,8 @@ BST LCA(BST b, int x, int y){
 //distanza = (distanza x - antenato) + (distanza y - antenato)
 int distanceFromNodes(BST b, int x, int y){
     if (emptyBST(b))
-        return 0;
-    printf("pepe\n");
+        return 0;    
     BST p = LCA(b, x, y);
-    printf("pepe\n");
     printBST(p, 0, altezza(p));
     return distanceFromLCA(b, x) + distanceFromLCA(b, y);
 }
@@ -215,7 +215,7 @@ int main()
     // int med = 3;
     // int lv = 0;
     // printf("%d is mediano? %s\n", med, mediano(b, med, &lv) ? "si" : "no");
-    int x = 5;
+    int x = 1;
     int y = 6;
     printf("o\n");
     printf("distance (%d, %d) = %d\n", x, y, distanceFromNodes(b, x, y));
