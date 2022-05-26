@@ -1,4 +1,4 @@
-
+#include "item.h"
 typedef struct node *BST;
 
 BST newBST(void);
@@ -8,4 +8,4 @@ BST figlioDX(BST T);
 BST insert(BST T, item elem);
 int contains(BST T, item elem);
 BST deleteNode(BST T, item elem);
-
+BST creaFoglia(item elem);

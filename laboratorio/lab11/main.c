@@ -152,10 +152,23 @@ int nodeCounter(BST b){
 int oneChild(BST b){
     if (emptyBST(b))
         return 0;
-    else if ((emptyBST(figlioDX(b)) && (!emptyBST(figlioSX(b)))) || (!emptyBST(figlioDX(b)) && (emptyBST(figlioSX(b)))))
-        return 1;
+    else if (emptyBST(figlioDX(b)) && emptyBST(figlioSX(b)))
+        return getValue(getItem(getRoot(b)));
     else
         return oneChild(figlioSX(b)) + oneChild(figlioDX(b));
+}
+
+int sumOnLevel(BST b, int i, int lv){
+    if (emptyBST(b))
+        return 0;
+    if (i == lv)
+        return getValue(getItem(getRoot(b)));
+    return sumOnLevel(figlioSX(b), i+1, lv) + sumOnLevel(figlioDX(b), i+1, lv);
+}
+
+int ex(BST b, int lv){
+    printf("sum on level %d = %d\nchildren = %d\n",lv, sumOnLevel(b, 1, lv), oneChild(b));
+    return sumOnLevel(b, 1, lv) == oneChild(b);
 }
 
 int distanceFromLCA(BST b, int x){
@@ -174,7 +187,6 @@ BST LCA(BST b, int x, int y){
         return LCA(figlioSX(b), x, y);
     if (getValue(getItem(getRoot(b))) < x)
         return LCA(figlioDX(b), x, y);
-
     return b;
 }
 
@@ -184,7 +196,7 @@ int distanceFromNodes(BST b, int x, int y){
     if (emptyBST(b))
         return 0;    
     BST p = LCA(b, x, y);
-    printBST(p, 0, altezza(p));
+    //printBST(p, 0, altezza(p));
     return distanceFromLCA(b, x) + distanceFromLCA(b, y);
 }
 
@@ -200,7 +212,7 @@ int main()
     // BST b = insertFromArray(a, 7);
     BST b = newBST();
     b = bilanciato(a, 0, 6);
-    // printBST(b, 0, altezza(b));
+    printBST(b, 0, altezza(b));
     // printf("is BST? %d\n", isBst(b));
     // // print2D(b);
     // list onLevK = newList();
@@ -215,10 +227,10 @@ int main()
     // int med = 3;
     // int lv = 0;
     // printf("%d is mediano? %s\n", med, mediano(b, med, &lv) ? "si" : "no");
-    int x = 1;
+    int x = 0;
     int y = 6;
-    printf("o\n");
     printf("distance (%d, %d) = %d\n", x, y, distanceFromNodes(b, x, y));
     //printf("LCA (%d, %d) = %d\n", x, y, LCA(b, x, y));
     //printf("figli unici: %d\n", oneChild(b));
+    printf("ex =  %d\n", ex(b, 2));
 }

@@ -11,15 +11,15 @@ struct node {
     struct node *right;
 };
 
-item getItem(struct node *N){
-    if (N == NULL)  return NULLITEM;
-    return N->value;
-}
+// item getItem(struct node *N){
+//     if (N == NULL)  return NULLITEM;
+//     return N->value;
+// }
 
-void setItem(struct node *N, item el){
-    if (N==NULL) return;
-    N->value = el;  // correttezza di =
-}                             // dipende dal tipo item
+// void setItem(struct node *N, item el){
+//     if (N==NULL) return;
+//     N->value = el;  // correttezza di =
+// }                             // dipende dal tipo item
 
 BST newBST (void){
     return NULL;
@@ -31,8 +31,8 @@ int emptyBST (BST T){
 
 int contains(BST T, item val){
     if (T == NULL)  return 0;
-    if (eq(val, getItem(T)))  return 1;
-    if (minore(val, getItem(T)))
+    if (cmp(val, getItem(T)) == 0)  return 1;
+    if (cmp(val, getItem(T)) == 1)
         return (contains(figlioSX(T), val));
     else
         return (contains(figlioDX(T), val));
@@ -41,9 +41,9 @@ int contains(BST T, item val){
 BST insert(BST T, item elem){       
     if (T==NULL)    
         return creaFoglia(elem);
-    else if (minore(elem, getItem(T)))
+    else if (cmp(elem, getItem(T)) == 1)
         T->left = insert(T->left, elem);
-    else if (minore(getItem(T), elem))
+    else if (cmp(getItem(T), elem) == 1)
         T->right = insert(T->right, elem);
     return T;
 }
@@ -71,9 +71,9 @@ struct node * minValue(struct node* node){
 struct node* deleteNode(struct node* root, item key){
     if (root == NULL) return root;
  
-    if (minore(key, root->value))
+    if (cmp(key, root->value) == 1)
         root->left = deleteNode(root->left, key);
-    else if (minore(root->value, key))
+    else if (cmp(root->value, key) == 1)
         root->right = deleteNode(root->right, key);
  
     else{
