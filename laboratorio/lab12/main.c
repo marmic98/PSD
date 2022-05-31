@@ -29,6 +29,25 @@ PQueue insertHeapFromArray(item* a, int n){
     return p;
 }
 
+int* heapify(int* a, int size){
+    item temp[size];
+    for(int i = 0; i < size; i++)
+        temp[i] = createItem(a[i], a[i]);
+    PQueue tempq = insertHeapFromArray(temp, size);
+    int* toReturn = malloc(sizeof(int)*size);
+    if(toReturn){
+        int i = 0;
+        while(!emptyPQ(tempq)){
+            toReturn[i] = getValue(getMax(tempq));
+            deleteMax(tempq);
+            i+=1;
+        }
+    }
+    free(tempq);
+    return toReturn;
+
+}
+
 void printHeap(PQueue p){
     PQueue temp = newPQ();
     while(!emptyPQ(p)){
@@ -72,10 +91,34 @@ int pop(PQueue p){
     return deleteMax(p);
 }
 
+PQueue merge(PQueue q1, PQueue q2){
+    PQueue q3 = newPQ();
+    PQueue temp = newPQ();
+    while(!emptyPQ(q1)){
+        insert(q3, getMax(q1));
+        insert(temp, getMax(q1)); 
+        deleteMax(q1);
+    }
 
+    while(!emptyPQ(temp)){
+        insert(q1, getMax(temp));
+        deleteMax(temp);
+    }
 
-int merge(PQueue q1, PQueue q2){
-    
+    while(!emptyPQ(q2)){
+        insert(q3, getMax(q2));
+        insert(temp, getMax(q2)); 
+        deleteMax(q2);
+    }
+
+    while(!emptyPQ(temp)){
+        insert(q2, getMax(temp));
+        deleteMax(temp);
+    }
+
+    free(temp);
+    return q3;
+
 }
 
 int main (){
@@ -86,7 +129,12 @@ int main (){
     a[3] = createItem(34, 3);
     a[4] = createItem(11, 4);
     a[5] = createItem(6, 5);
+    item b[3];
+    b[0] = createItem(89, 20);
+    b[1] = createItem(50, 15);
+    b[2] = createItem(23, 17);
     PQueue p = insertHeapFromArray(a, 6);
+    PQueue q = insertHeapFromArray(b, 3);
     printHeap(p);
     printf("min: ");
     printItem(getMinClient(p));
@@ -99,6 +147,13 @@ int main (){
     printf("fake pop\n");
     pop(p);
     printHeap(p);
-
+    printf("merge\n");
+    printHeap(merge(p, q));
+    int c[4] = {0,1,2,3}; 
+    
+    int* heapified = heapify(c, 4);
+    for(int i = 0;  i < 4; i++){
+        printf("[%d]", heapified[i]);
+    }
  
 }
