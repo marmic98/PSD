@@ -78,7 +78,7 @@ int incrementaChiave(PQueue q, item k, item newK){
         deleteMax(temp);
     }
     free(temp);
-    return insert(q, newK);; 
+    return insert(q, newK); 
 }
 
 int push(PQueue p, item i){
@@ -148,37 +148,37 @@ int main (){
     PQueue p = insertHeapFromArray(a, 6);
     PQueue q = insertHeapFromArray(b, 3);
     printHeap(p);
-    printf("min: ");
-    printItem(getMinClient(p));
-    printf("\n");
-    incrementaChiave(p, createItem(89, 2), createItem(97, 0));
+    // printf("min: ");
+    // printItem(getMinClient(p));
+    // printf("\n");
+    incrementaChiave(p, createItem(89, 20), createItem(97, 0));
     printHeap(p);
-    printf("fake push\n");
-    push(p, createItem(315, 7));
-    printHeap(p);
-    printf("fake pop\n");
-    pop(p);
-    printHeap(p);
-    printf("merge\n");
-    printHeap(merge(p, q));
-    int c[4] = {0,1,2,3}; 
-    printf("c before heaping\n");
-    for(int i = 0;  i < 4; i++)
-        printf("[%d]", c[i]);
-    printf("\n");
-    printf("c after heaping\n");
-    int* heapified = heapify(c, 4);
-    for(int i = 0;  i < 4; i++)
-        printf("[%d]", heapified[i]);
-    printf("\n");
+    // printf("fake push\n");
+    // push(p, createItem(315, 7));
+    // printHeap(p);
+    // printf("fake pop\n");
+    // pop(p);
+    // printHeap(p);
+    // printf("merge\n");
+    // printHeap(merge(p, q));
+    // int c[4] = {0,1,2,3}; 
+    // printf("c before heaping\n");
+    // for(int i = 0;  i < 4; i++)
+    //     printf("[%d]", c[i]);
+    // printf("\n");
+    // printf("c after heaping\n");
+    // int* heapified = heapify(c, 4);
+    // for(int i = 0;  i < 4; i++)
+    //     printf("[%d]", heapified[i]);
+    // printf("\n");
 
-    item sequence[6];
-    sequence[0] = createItem('A', 'A');
-    sequence[1] = createItem('B', 'B');
-    sequence[2] = createItem('*', '*');
-    sequence[3] = createItem('D', 'D');
-    sequence[4] = createItem('*', '*');
-    sequence[5] = createItem('*', '*');
+    // item sequence[6];
+    // sequence[0] = createItem('A', 'A');
+    // sequence[1] = createItem('B', 'B');
+    // sequence[2] = createItem('*', '*');
+    // sequence[3] = createItem('D', 'D');
+    // sequence[4] = createItem('*', '*');
+    // sequence[5] = createItem('*', '*');
 
-    sequenza(sequence, 6);
+    // sequenza(sequence, 6);
 }
