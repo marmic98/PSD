@@ -2,7 +2,8 @@ typedef struct myItem* item;
 
 item createItem(int x, int key);
 item inputItem();
-void printItem();
+void printItem(item i);
+void printItemChar(item i);
 int cmpValue(item, item);
 int cmpKey(item, item);
 void swap(item*, item*);

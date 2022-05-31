@@ -55,6 +55,10 @@ void printItem(item i){
     printf("value: [%d]\nkey:   [%d]\n-\n", i->val, i->key);
 }
 
+void printItemChar(item i){
+    printf("value: [%c]\nkey:   [%c]\n-\n", i->val, i->key);
+}
+
 int getValue(item i){
     return (i->val);
 }

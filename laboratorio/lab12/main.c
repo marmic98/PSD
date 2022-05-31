@@ -115,10 +115,22 @@ PQueue merge(PQueue q1, PQueue q2){
         insert(q2, getMax(temp));
         deleteMax(temp);
     }
-
     free(temp);
     return q3;
+}
 
+void sequenza(item* a, int n){
+    PQueue q = newPQ(); 
+    for(int i = 0; i < n; i++){
+        if (getValue(a[i]) == '*'){
+            printItemChar(getMax(q));
+            deleteMax(q);
+        }
+            
+        else 
+            insert(q, a[i]);
+    }
+        
 }
 
 int main (){
@@ -150,10 +162,23 @@ int main (){
     printf("merge\n");
     printHeap(merge(p, q));
     int c[4] = {0,1,2,3}; 
-    
+    printf("c before heaping\n");
+    for(int i = 0;  i < 4; i++)
+        printf("[%d]", c[i]);
+    printf("\n");
+    printf("c after heaping\n");
     int* heapified = heapify(c, 4);
-    for(int i = 0;  i < 4; i++){
+    for(int i = 0;  i < 4; i++)
         printf("[%d]", heapified[i]);
-    }
- 
+    printf("\n");
+
+    item sequence[6];
+    sequence[0] = createItem('A', 'A');
+    sequence[1] = createItem('B', 'B');
+    sequence[2] = createItem('*', '*');
+    sequence[3] = createItem('D', 'D');
+    sequence[4] = createItem('*', '*');
+    sequence[5] = createItem('*', '*');
+
+    sequenza(sequence, 6);
 }
