@@ -51,8 +51,8 @@ int minBTree(Btree b){
         return;
     else {
         int min = getValue(getItem(getRoot(b))); 
-        int sx = maxBTree(figlioSX(b));
-        int dx = maxBTree(figlioDX(b));
+        int sx = minBTree(figlioSX(b));
+        int dx = minBTree(figlioDX(b));
         if (min > sx)
             return sx;
         else if (min > dx)

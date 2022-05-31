@@ -73,20 +73,45 @@ void nodiAltezzaK(BST b, list *a, int k, int j){
     }
 }
 
+int maxBTree(Btree b){
+    if (emptyBtree(b))
+        return;
+    else {
+        int max = getValue(getItem(getRoot(b))); 
+        int sx = maxBTree(figlioSX(b));
+        int dx = maxBTree(figlioDX(b));
+        if (max < sx)
+            return sx;
+        else if (max < dx)
+            return dx;
+    }
+}
+
+int minBTree(Btree b){
+    if (emptyBtree(b))
+        return;
+    else {
+        int min = getValue(getItem(getRoot(b))); 
+        int sx = minBTree(figlioSX(b));
+        int dx = minBTree(figlioDX(b));
+        if (min > sx)
+            return sx;
+        else if (min > dx)
+            return dx;
+    }
+}
+
+//è tale per cui la radice è piu grande di tutto il sotto albero sinistor e maggiore di tutto il sottoalbero destro
+//confrontare la radice con il max dei sotto alberi 
 int isBst(Btree t){
-    if (emptyBtree(t))
+    if (emptyBtree(figlioDX(t)) && emptyBtree(figlioSX(t)))
         return 1;
     if (!emptyBtree(figlioSX(t)))
-    {
-        if (cmp(getItem(getRoot(t)), getItem(getRoot(figlioSX(t)))) == 1)
-            return 0;
-    }
+        return getValue(getItem(getRoot(t))) > maxBTree(figlioSX(t));
     if (!emptyBtree(figlioDX(t)))
-    {
-        if (cmp(getItem(getRoot(t)), getItem(getRoot(figlioDX(t)))) == -1)
-            return 0;
-    }
-    return (isBst(figlioSX(t)) && isBst(figlioDX(t)));
+        return getValue(getItem(getRoot(t))) < minBTree(figlioDX(t));
+    else 
+        return (isBst(figlioSX(t)) && isBst(figlioDX(t)));
 }
 
 // precondizione
@@ -98,16 +123,17 @@ BST bilanciato(int *a, int i, int f){
     int mid = (i + f) / 2;
     return consBtree(createItem(a[mid]), bilanciato(a, i, mid - 1), bilanciato(a, mid + 1, f));
 }
-
+//heap perfettamente bilanciato fino al livello h-1
+//al livello h le foglie saranno addossate a sinistra
+//un nodo è sempre maggiore dei suoi figli 
 void printInterval(BST root, int a, int b){
-    if (emptyBST(root))
-    {
+    if (emptyBST(root)){
         return;
     }
     if (a < getValue(getItem(getRoot(root))))
         printInterval(figlioSX(root), a, b); // prima di effettuare la stampa arrivo all'elemento più piccolo. Stampa a ritroso
-    if ((a <= getValue(getItem(getRoot(root)))) && b >= getValue(getItem(getRoot(root))))
-    { // se è compreso tra a e b allora lo stampa in modo crescente
+    if ((a <= getValue(getItem(getRoot(root)))) && b >= getValue(getItem(getRoot(root)))){
+        // se è compreso tra a e b allora lo stampa in modo crescente
         printItem(getItem(getRoot(root)));
         printf("-->");
     }
@@ -128,19 +154,15 @@ int altezza(Btree b){
     }
 }
 
-int mediano(BST b, int u, int *i){
-    printf("nodes: %d\n", nodeCounter(b));
-    if ((*i) = (nodeCounter(b) + 1) / 2)
-    {
-        if (getValue(getItem(getRoot(b))) == u)
-            return 1;
-        else
-            return 0;
-    }
-    else
-        *i = *i + 1;
-    mediano(figlioDX(b), u, i);
-    mediano(figlioSX(b), u, i);
+int mediano(BST b, int u){
+    if (emptyBST(figlioSX(b)) && emptyBST(figlioDX(b)))
+        return 0;
+    if (getValue(getItem(getRoot(b))) == u)
+        return nodeCounter(figlioSX(b)) == nodeCounter(figlioDX(b));
+    else if(u > getValue(getItem(getRoot(b))))
+        return mediano(figlioDX(b), u);
+    else 
+        return mediano(figlioSX(b), u);
 }
 
 int nodeCounter(BST b){
@@ -213,7 +235,8 @@ int main()
     BST b = newBST();
     b = bilanciato(a, 0, 6);
     printBST(b, 0, altezza(b));
-    // printf("is BST? %d\n", isBst(b));
+    printf("is BST? %d\n", isBst(b));
+    printf("min %d\nmax %d\n", minBTree(figlioSX(b)), maxBTree(figlioDX(b)));
     // // print2D(b);
     // list onLevK = newList();
     // int i = 0;
@@ -224,9 +247,8 @@ int main()
     // printf("nodi nell'intervallo 1 - 10 contenuti nel bst\n");
     // printInterval(b, 1, 10);
     // printf("\n");
-    // int med = 3;
-    // int lv = 0;
-    // printf("%d is mediano? %s\n", med, mediano(b, med, &lv) ? "si" : "no");
+    int med = 4;
+    printf("%d is mediano? %s\n", med, mediano(b, med) ? "si" : "no");
     int x = 0;
     int y = 6;
     printf("distance (%d, %d) = %d\n", x, y, distanceFromNodes(b, x, y));
