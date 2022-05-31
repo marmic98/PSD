@@ -55,18 +55,19 @@ int deleteMax(PQueue q){
 
 
 static void scendi (PQueue q){
-	int temp, n=q->numel, i=1, pos;
+	int n=q->numel, i = 1, pos;
+	item temp;
 
 	while (1){
 		if (2*i+1 <= n)               // IL NODO CORRENTE HA 2 FIGLI
-			pos =  (q->vet[i*2] > q->vet[i*2+1])  ?   i*2  :   i*2+1;
+			pos =  (getKey(q->vet[i*2]) > getKey(q->vet[i*2+1]))  ?   i*2  :   i*2+1;
 
 		else  if (2*i <= n)          // IL NODO CORRENTE HA 1 FIGLIO
 			pos = 2*i;
 		else  
 			break;                  // IL NODO CORRENTE NON HA FIGLI
 			
-		if (q->vet[pos] > q->vet[i]){     // SCAMBIO LE CHIAVI E PROSEGUO 
+		if (getKey(q->vet[pos]) > getKey(q->vet[i])){     // SCAMBIO LE CHIAVI E PROSEGUO 
 			temp = q->vet[i];
 			q->vet[i] = q->vet[pos];
 			q->vet[pos] = temp;
@@ -90,10 +91,11 @@ int insert (PQueue q, item i){
 }
 
 static void sali (PQueue q){
-	int temp, pos=q->numel, i=pos/2;
+	int pos=q->numel, i=pos/2;
+	item temp;
 
 	while (pos>1){
-		if (q->vet[pos] > q->vet[i]){
+		if (getKey(q->vet[pos]) > getKey(q->vet[i])){
 		temp = q->vet[i];
 		q->vet[i] = q->vet[pos];
 		q->vet[pos] = temp;

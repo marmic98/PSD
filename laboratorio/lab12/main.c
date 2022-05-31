@@ -3,8 +3,11 @@
 #include "item.h"
 #include "PQueue.h"
 
-//esiste getMax()
-int getMinClient(PQueue p){
+item getMaxClient(PQueue p){
+    return getMax(p);
+}
+
+item getMinClient(PQueue p){
     PQueue temp = newPQ();
     item curr = 0;
     while(!emptyPQ(p)){
@@ -19,7 +22,7 @@ int getMinClient(PQueue p){
     free(temp);
     return curr;
 }
-PQueue insertHeapFromArray(int* a, int n){
+PQueue insertHeapFromArray(item* a, int n){
     PQueue p = newPQ();
     for(int i = 0; i < n; i++)
         insert(p, a[i]);
@@ -33,7 +36,7 @@ void printHeap(PQueue p){
         deleteMax(p);
     }//se esistesse l'operatore getSize non avremmo necessità di svuotare e riempire p
     while(!emptyPQ(temp)){
-        printf("[%d] ",getMax(temp));
+        printItem(getMax(temp));
         insert(p, getMax(temp));
         deleteMax(temp);
     }
@@ -41,12 +44,12 @@ void printHeap(PQueue p){
     free(temp);
 }
 //K < newK
-int incrementaChiave(PQueue q, int k, int newK){
-    if (k >= newK)
+int incrementaChiave(PQueue q, item k, item newK){
+    if (getValue(k) >= getValue(newK))
         return 0;
     PQueue temp = newPQ();
     while(!emptyPQ(q)){
-        if (k != getMax(q))
+        if (getValue(k) != getValue(getMax(q)))
             insert(temp, getMax(q));
         deleteMax(q);
     }
@@ -55,30 +58,47 @@ int incrementaChiave(PQueue q, int k, int newK){
         insert(q, getMax(temp));
         deleteMax(temp);
     }
-
-    insert(q, newK);
     free(temp);
-    return 1; 
+    return insert(q, newK);; 
 }
 
-int push(PQueue p){
-    //dubbio
+int push(PQueue p, item i){
+    if (getKey(getMax(p)) > getKey(i))
+        i = setKey(i, getKey(getMax(p))+1);
+    return insert(p, i);
 }
 
 int pop(PQueue p){
-    deleteMax(p);
+    return deleteMax(p);
 }
+
+
 
 int merge(PQueue q1, PQueue q2){
     
 }
 
 int main (){
-    int a[6] = {3,512,1,91,5,5};
+    item a[6];
+    a[0] = createItem(26, 81);
+    a[1] = createItem(60, 1);
+    a[2] = createItem(89, 2);
+    a[3] = createItem(34, 3);
+    a[4] = createItem(11, 4);
+    a[5] = createItem(6, 5);
     PQueue p = insertHeapFromArray(a, 6);
     printHeap(p);
-    
-    incrementaChiave(p, 91, 92);
+    printf("min: ");
+    printItem(getMinClient(p));
+    printf("\n");
+    incrementaChiave(p, createItem(89, 2), createItem(97, 0));
     printHeap(p);
+    printf("fake push\n");
+    push(p, createItem(315, 7));
+    printHeap(p);
+    printf("fake pop\n");
+    pop(p);
+    printHeap(p);
+
  
 }

@@ -52,7 +52,7 @@ void swap(item* a, item* b){
 }
 
 void printItem(item i){
-    printf("value: [%d]\nkey: [%d]\n", i->val, i->key);
+    printf("value: [%d]\nkey:   [%d]\n-\n", i->val, i->key);
 }
 
 int getValue(item i){
@@ -61,4 +61,14 @@ int getValue(item i){
 
 int getKey(item i){
     return (i->key);
+}
+
+item setValue(item i, int val){
+    i->val = val;
+    return (i);
+}
+
+item setKey(item i, int key){
+    i->key = key;
+    return (i);
 }

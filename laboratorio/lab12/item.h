@@ -7,4 +7,6 @@ int cmpValue(item, item);
 int cmpKey(item, item);
 void swap(item*, item*);
 int  getValue(item i);
-int getkey(item i);
+int getKey(item i);
+item setValue(item i, int val);
+item setKey(item i, int key);

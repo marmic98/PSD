@@ -1,3 +1,4 @@
+#include "item.h"
 typedef struct c_PQ *PQueue;
 
 PQueue newPQ(void);
