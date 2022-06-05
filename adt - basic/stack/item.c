@@ -41,7 +41,7 @@ void swap(item* a, item* b){
 }
 
 void printItem(item i){
-    printf("[%d]", i->val);
+    printf("[%c]", i->val);
 }
 
 int getValue(item i){

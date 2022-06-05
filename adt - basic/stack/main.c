@@ -83,22 +83,34 @@ int deleteItemClient(stack s, item toDelete){
 	return counter;
 }
 
-
+stack seq(char* word){
+	stack s = newStack();
+	for(int i = 0; word[i] != '\0'; i++){
+		if ((word[i] == word[i+1]) || (word[i] == word[i-1]))
+			push(createItem(word[i]), s);
+		if ((word[i] != word[i+1]) && (word[i] == word[i-1]))
+		 	push(createItem('-'), s);
+	}
+	if(!emptyStack(s))
+		pop(s);
+	return s;
+}
 
 int main (){
-	stack s1 = newStack();
+	//stack s1 = newStack();
 	//stack s2 = newStack();
 	//printf("Primo stack\n");
-	s1 = inputStackClient(4);
+	//s1 = inputStackClient(4);
 	// printf("Secondo stack\n");
 	// s2 = inputStackClient(4);
 	// printStackClient(cloneStackClient(s1));
 	// printStackClient(reverseStackClient(s1));
 	// printStackClient(s1);
-	printStackClient(s1);
-	int c = deleteItemClient(s1, createItem(3));
-	printf("3 eliminato %d volt%s\n", c, c == 1 ? "a": "e");
-	printStackClient(s1);
+	// printStackClient(s1);
+	// int c = deleteItemClient(s1, createItem(3));
+	// printf("3 eliminato %d volt%s\n", c, c == 1 ? "a": "e");
+	// printStackClient(s1);
+	printStackClient(reverseStackClient(seq("ppolopplop")));
 	//stack s3 = merge(s1, s2);
 	//printStack(s3);
 	

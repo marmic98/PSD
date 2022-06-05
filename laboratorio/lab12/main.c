@@ -63,13 +63,19 @@ void printHeap(PQueue p){
     free(temp);
 }
 //K < newK
-int incrementaChiave(PQueue q, item k, item newK){
-    if (getValue(k) >= getValue(newK))
+//precodn: k presente nella coda a priorità 
+//         nella coda apriità ci sono chiavi univoche
+//da modificare afficnhè lavori con key
+int incrementaChiave(PQueue q, int k, int newK){
+    if (k >= newK)
         return 0;
     PQueue temp = newPQ();
+    item tempItem;
     while(!emptyPQ(q)){
-        if (getValue(k) != getValue(getMax(q)))
+        if (k != getKey(getMax(q)))
             insert(temp, getMax(q));
+        else 
+            tempItem = getMax(q);
         deleteMax(q);
     }
     
@@ -78,7 +84,7 @@ int incrementaChiave(PQueue q, item k, item newK){
         deleteMax(temp);
     }
     free(temp);
-    return insert(q, newK); 
+    return insert(q, createItem(getValue(tempItem), newK)); 
 }
 
 int push(PQueue p, item i){
@@ -147,20 +153,23 @@ int main (){
     b[2] = createItem(23, 17);
     PQueue p = insertHeapFromArray(a, 6);
     PQueue q = insertHeapFromArray(b, 3);
+    printf("p\n");
     printHeap(p);
+    printf("q\n");
+    printHeap(q);
     // printf("min: ");
     // printItem(getMinClient(p));
-    // printf("\n");
-    incrementaChiave(p, createItem(89, 20), createItem(97, 0));
-    printHeap(p);
+    //printf("\nincrChiave\n");
+    //incrementaChiave(p, 1, 200);
+    //printHeap(p);
     // printf("fake push\n");
     // push(p, createItem(315, 7));
     // printHeap(p);
     // printf("fake pop\n");
     // pop(p);
     // printHeap(p);
-    // printf("merge\n");
-    // printHeap(merge(p, q));
+    printf("merge\n");
+    printHeap(merge(p, q));
     // int c[4] = {0,1,2,3}; 
     // printf("c before heaping\n");
     // for(int i = 0;  i < 4; i++)
