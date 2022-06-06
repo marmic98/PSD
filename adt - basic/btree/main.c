@@ -196,6 +196,25 @@ int lev(Btree b, int level, int k){
         return lev(figlioDX(b), level, k+1) + lev(figlioSX(b), level, k+1); 
 }
 
+int full(Btree b){
+    return !emptyBtree(figlioDX(b)) && !emptyBtree(figlioSX(b));  
+}
+
+int isHeap(Btree b, int lv, int h){
+    if (lv < h-1){
+        if (getValue(getItem(getRoot(b))) > maxBTree(figlioSX(b)) && getValue(getItem(getRoot(b))) > maxBTree(figlioDX(b)) && full(b)){
+            isHeap(figlioDX(b), lv+1, h);
+            isHeap(figlioSX(b), lv+1, h);
+        }
+        else 
+            return 0;
+    }
+    if (lv == h-1){
+        return !emptyBtree(figlioDX(b)) && emptyBtree(figlioSX(b));
+            
+    }
+}
+
 void livello(Btree b, int level, int k){
     if(emptyBtree(b))
         return;
@@ -236,7 +255,8 @@ int main(){
     //int a = {0,1,2,3,4,5,6,7,8,9}; 
     //Btree b = newBtree();
     //b = inputBTreeFromArray(a, b, 0, 10);
-    Btree b1 = inputBtreeFile("input1.txt");
+    //Btree b1 = inputBtreeFile("input1.txt");
+    Btree b1 = inputBtree();
     print2D(b1);
 
     // Btree b2 = inputBtreeFile("input2.txt");
@@ -257,4 +277,5 @@ int main(){
     // print2D(b1);
     // printf("\nmax albero: %d\n", maxBTree(b1));
     // printf("\nmin albero: %d\n", minBTree(b1));
+    printf("b is heap? %s\n", isHeap(b1, 1, 3) ? "si" : "no");
 }

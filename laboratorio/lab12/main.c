@@ -138,6 +138,27 @@ void sequenza(item* a, int n){
     }
         
 }
+//per non modificare solo per questa funzione l'adt vengono eseguiti prima i processi con un burst maggiore. Nella realtà i processi con burst minore hanno la precedenza
+void scheduler(PQueue processes, int cycles){
+    if (emptyPQ(processes)){
+        printf("Coda dei processi vuota");
+        return;
+    }
+    else{
+        while(!emptyPQ(processes)){
+            item current = getMax(processes);
+            deleteMax(processes);
+            int cicliRestanti = getValue(current) - cycles; 
+            if (cicliRestanti > 0){
+                current = setValue(current, cicliRestanti);
+                insert(processes, current);
+            }  
+            printf("ciclata\n");
+            printHeap(processes);
+            sleep(1); 
+        }
+    }
+}
 
 int main (){
     item a[6];
@@ -152,11 +173,11 @@ int main (){
     b[1] = createItem(50, 15);
     b[2] = createItem(23, 17);
     PQueue p = insertHeapFromArray(a, 6);
-    PQueue q = insertHeapFromArray(b, 3);
-    printf("p\n");
-    printHeap(p);
-    printf("q\n");
-    printHeap(q);
+    // PQueue q = insertHeapFromArray(b, 3);
+    // printf("p\n");
+    // printHeap(p);
+    // printf("q\n");
+    // printHeap(q);
     // printf("min: ");
     // printItem(getMinClient(p));
     //printf("\nincrChiave\n");
@@ -168,8 +189,8 @@ int main (){
     // printf("fake pop\n");
     // pop(p);
     // printHeap(p);
-    printf("merge\n");
-    printHeap(merge(p, q));
+    //printf("merge\n");
+    //printHeap(merge(p, q));
     // int c[4] = {0,1,2,3}; 
     // printf("c before heaping\n");
     // for(int i = 0;  i < 4; i++)
@@ -190,4 +211,5 @@ int main (){
     // sequence[5] = createItem('*', '*');
 
     // sequenza(sequence, 6);
+    scheduler(p, 3);
 }
