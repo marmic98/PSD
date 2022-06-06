@@ -202,16 +202,17 @@ int full(Btree b){
 
 int isHeap(Btree b, int lv, int h){
     if (lv < h-1){
-        if (getValue(getItem(getRoot(b))) > maxBTree(figlioSX(b)) && getValue(getItem(getRoot(b))) > maxBTree(figlioDX(b)) && full(b)){
-            isHeap(figlioDX(b), lv+1, h);
-            isHeap(figlioSX(b), lv+1, h);
+        if (full(b) && getValue(getItem(getRoot(b))) > maxBTree(figlioSX(b)) && getValue(getItem(getRoot(b))) > maxBTree(figlioDX(b))){
+            return isHeap(figlioDX(b), lv+1, h) && isHeap(figlioSX(b), lv+1, h);
         }
         else 
             return 0;
     }
     if (lv == h-1){
-        return !emptyBtree(figlioDX(b)) && emptyBtree(figlioSX(b));
-            
+        if (!emptyBtree(figlioDX(b)) && emptyBtree(figlioSX(b)))
+            return 0;
+        else
+            return 1;
     }
 }
 
