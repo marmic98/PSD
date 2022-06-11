@@ -160,6 +160,39 @@ void scheduler(PQueue processes, int cycles){
     }
 }
 
+int * listKey (PQueue p){
+    int * a = malloc(sizeof(item) * 20);
+    PQueue temp = newPQ();
+    int i = 0;
+    while (!emptyPQ(p)){
+        insert(temp, getMax(p));
+        a[i] = getKey(getMax(p));
+        deleteMax(p);
+        i++;
+    }
+    while(!emptyPQ(temp)){
+        insert(p, getMax(temp));
+        deleteMax(temp);
+    }
+    free(temp);
+    return a;
+} 
+
+void eliminaPiuK (PQueue p, int k){
+    PQueue temp = newPQ();
+    while(!emptyPQ(p)){
+        if(getKey(getMax(p)) < k)
+            insert(temp, getMax(p));
+        deleteMax(p);
+    }
+
+    while(!emptyPQ(temp)){
+        insert(p, getMax(temp));
+        deleteMax(temp);
+    }
+    free(temp);
+}
+
 int main (){
     item a[6];
     a[0] = createItem(26, 81);
@@ -211,5 +244,13 @@ int main (){
     // sequence[5] = createItem('*', '*');
 
     // sequenza(sequence, 6);
-    scheduler(p, 3);
+    // scheduler(p, 3);
+    printHeap(p);
+    printf("testina\n");
+    // int* pippo = listKey(p);
+    // for(int i = 0; i < 6; i++)
+    //     printf("[%d]", pippo[i]);
+
+    eliminaPiuK(p, 50);
+    printHeap(p);
 }

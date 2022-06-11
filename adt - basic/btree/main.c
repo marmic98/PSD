@@ -9,7 +9,8 @@ int fileLineCounter(char* finName){
         return -1;
     int size = 0;
     int x = 0;
-    while(fscanf(fin, "%d", &x) == 1) size++;
+    while(fscanf(fin, "%d", &x) == 1) 
+        size++;
     fclose(fin);
     return size;   
 }
@@ -252,19 +253,36 @@ Btree inputBtreeFile(char *path_name){
     return new;
 }
 
+Btree specularex(Btree b){
+    if (emptyBtree(b))
+        return newBtree();
+    return consBtree(getItem(getRoot(b)), speculare(figlioDX(b)), speculare(figlioSX(b)));
+}
+
+void printBST(Btree b, int lv){
+    if (emptyBtree(b))
+        return;
+    for(int i = 0; i < lv; i++)
+        printf("   ");
+    printItem(getItem(getRoot(b)));
+    printf("\n");
+    printBST(figlioSX(b), lv+1);
+    printBST(figlioDX(b), lv+1);
+}
+
 int main(){
     //int a = {0,1,2,3,4,5,6,7,8,9}; 
     //Btree b = newBtree();
     //b = inputBTreeFromArray(a, b, 0, 10);
     //Btree b1 = inputBtreeFile("input1.txt");
-    Btree b1 = inputBtree();
-    print2D(b1);
+    Btree b1 = inputBtreeFile("input1.txt");
+    printBST(b1, 4);
 
     // Btree b2 = inputBtreeFile("input2.txt");
     // print2D(b2);
-    int counter = 0;
-    livelloCounter(b1, 3,1, &counter);
-    printf("nodi al livello 3 = %d\n", lev(b1, 3, 1));
+    //int counter = 0;
+    //livelloCounter(b1, 3,1, &counter);
+    //printf("nodi al livello 3 = %d\n", lev(b1, 3, 1));
     //printf("alberi uguali? %d\n", eqBTree(b1, b2));
     
     // printf("numero di nodi: %d\n", nodeCounter(b1));
@@ -278,5 +296,7 @@ int main(){
     // print2D(b1);
     // printf("\nmax albero: %d\n", maxBTree(b1));
     // printf("\nmin albero: %d\n", minBTree(b1));
-    printf("b is heap? %s\n", isHeap(b1, 1, 3) ? "si" : "no");
+    //printf("b is heap? %s\n", isHeap(b1, 1, 3) ? "si" : "no");
+    printf("spec\n");
+    printBST(specularex(b1),4);
 }

@@ -32,32 +32,30 @@ Btree speculare (Btree root){
     return consBtree(getItem(getRoot(root)), speculare(figlioDX(root)), speculare(figlioSX(root)));
 }
 
-int maxBTree(Btree b){
+int minBtree(Btree b){
     if (emptyBtree(b))
-        return;
-    else {
-        int max = getValue(getItem(getRoot(b))); 
-        int sx = maxBTree(figlioSX(b));
-        int dx = maxBTree(figlioDX(b));
-        if (max < sx)
-            return sx;
-        else if (max < dx)
-            return dx;
-    }
+        return 1000;
+    int min = getValue(getItem(getRoot(b)));
+    int minSX = minBtree(figlioSX(b));
+    int minDX = minBtree(figlioDX(b));
+    if (min > minSX)
+        min = minSX;
+    if (min > minDX)
+        min = minDX;
+    return min;
 }
 
-int minBTree(Btree b){
+int maxBtree(Btree b){
     if (emptyBtree(b))
-        return;
-    else {
-        int min = getValue(getItem(getRoot(b))); 
-        int sx = minBTree(figlioSX(b));
-        int dx = minBTree(figlioDX(b));
-        if (min > sx)
-            return sx;
-        else if (min > dx)
-            return dx;
-    }
+        return -1000;
+    int max = getValue(getItem(getRoot(b)));
+    int maxSX = maxBtree(figlioSX(b));
+    int maxDX = maxBtree(figlioDX(b));
+    if (max < maxSX)
+        max = maxSX;
+    if (max < maxDX)
+        max =  maxDX;
+    return max;
 }
 
 int eqBTree(Btree b1, Btree b2){
